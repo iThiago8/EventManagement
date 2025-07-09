@@ -13,7 +13,7 @@ namespace apis.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var people = _context.Pessoa.ToList().Select(p => p.ToPersonDto());
+            var people = _context.Person.ToList().Select(p => p.ToPersonDto());
 
             return Ok(people);
         }
@@ -21,7 +21,7 @@ namespace apis.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
-            var person = _context.Pessoa.Find(id);
+            var person = _context.Person.Find(id);
 
             if (person != null)
                 return Ok(person);
@@ -33,7 +33,7 @@ namespace apis.Controllers
         public IActionResult Create([FromBody] CreatePersonRequestDto personDto)
         {
             var personModel = personDto.ToPersonFromCreateDTO();
-            _context.Pessoa.Add(personModel);
+            _context.Person.Add(personModel);
             _context.SaveChanges();
 
             return CreatedAtAction(nameof(GetById), new { id = personModel.Id }, personModel.ToPersonDto());

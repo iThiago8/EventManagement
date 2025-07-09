@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     //options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
-    options.UseMySQL("Server=localhost;DataBase=evento;Uid=root;Pwd=1234");
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 

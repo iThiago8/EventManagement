@@ -1,13 +1,33 @@
 ﻿namespace apis.Models
 {
-    public class Symposium(string name, DateTime startDate, DateTime endDate, Address locationAddress, string? description)
+    public class Symposium
     {
+        public Symposium(string name, DateTime startDate, DateTime endDate, Address locationAddress, string? description)
+        {
+            Name = name;
+            StartDate = startDate;
+            EndDate = endDate;
+            Description = description;
+            LocationAddress = locationAddress ?? throw new ArgumentNullException(nameof(locationAddress), "The location address cannot be null!");
+            LocationAddressId = locationAddress.Id;
+        }
+
+        public Symposium()
+        {
+            Name = string.Empty;
+            StartDate = default;
+            EndDate = default;
+            LocationAddressId = 0;
+            LocationAddress = null!;
+
+        }
+
         public int Id { get; set; }
-        public string Name { get; set; } = name;
-        public DateTime StartDate { get; set; } = startDate;
-        public DateTime EndDate { get; set; } = endDate;
-        public int LocationAddressId { get; set; } = locationAddress?.Id ?? throw new ArgumentNullException(nameof(locationAddress), "The location address can not be null!");
-        public Address LocationAddress { get; set; } = locationAddress ?? throw new ArgumentNullException(nameof(locationAddress), "The location address can not be null!");
-        public string? Description { get; set; } = description;
+        public string Name { get; set; } 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int LocationAddressId { get; set; }
+        public Address LocationAddress { get; set; }
+        public string? Description { get; set; }
     }
 }
