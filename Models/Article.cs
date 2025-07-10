@@ -25,5 +25,7 @@
         public string Abstract { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
+        public ICollection<Person> Authors { get; set; } = [];
+        public ICollection<ArticleReview> ArticleReviews { get; set; } = [];
     }
 }
