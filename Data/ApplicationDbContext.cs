@@ -44,6 +44,19 @@ namespace apis.Data
                 .WithMany(s => s.PersonSymposium)
                 .HasForeignKey(ps => ps.SymposiumId);
 
+            modelBuilder.Entity<WorkshopSymposium>()
+                .HasKey(ws => new { ws.SymposiumId, ws.WorkshopId});
+
+            modelBuilder.Entity<WorkshopSymposium>()
+                .HasOne(ws => ws.Workshop)
+                .WithMany(w => w.WorkshopSymposium)
+                .HasForeignKey(ws => ws.WorkshopId);
+
+            modelBuilder.Entity<WorkshopSymposium>()
+                .HasOne(ws => ws.Symposium)
+                .WithMany(s => s.WorkshopSymposium)
+                .HasForeignKey(ws => ws.SymposiumId);
+
             modelBuilder.Entity<SymposiumWorkshopEnrollment>()
                 .HasKey(swe => new { swe.SymposiumId, swe.PersonId, swe.WorkshopId });
 
