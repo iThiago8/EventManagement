@@ -23,5 +23,7 @@
         public int Hours { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
+        public ICollection<WorkshopSymposium> WorkshopSymposium { get; set; } = [];
+        public ICollection<SymposiumWorkshopEnrollment> SymposiumWorkshopEnrollment { get; set; } = [];
     }
 }

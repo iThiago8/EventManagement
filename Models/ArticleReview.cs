@@ -4,9 +4,9 @@
     {
         public ArticleReview(Article article, ScientificCommittee scientificCommittee, float grade, string review, DateTime reviewDate)
         {
-            Article = article;
+            Article = article ?? throw new ArgumentNullException(nameof(article), "The article can not be null!");
             ArticleId = article.Id;
-            ScientificCommittee = scientificCommittee;
+            ScientificCommittee = scientificCommittee ?? throw new ArgumentNullException(nameof(scientificCommittee), "The Scientific Committee can not be null!");
             ScientificCommitteeId = scientificCommittee.Id;
             Grade = grade;
             Review = review;

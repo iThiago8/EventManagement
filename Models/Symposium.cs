@@ -29,5 +29,8 @@
         public int LocationAddressId { get; set; }
         public Address LocationAddress { get; set; }
         public string? Description { get; set; }
+        public ICollection<PersonSymposium> PersonSymposium { get; set; } = [];
+        public ICollection<WorkshopSymposium> WorkshopSymposium { get; set; } = [];
+        public ICollection<SymposiumWorkshopEnrollment> SymposiumWorkshopEnrollment { get; set; } = [];
     }
 }
