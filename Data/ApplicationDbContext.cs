@@ -30,7 +30,6 @@ namespace apis.Data
                 .WithMany(sc => sc.ArticleReviews)
                 .HasForeignKey(asc => asc.ScientificCommitteeId);
 
-            
             modelBuilder.Entity<PersonSymposium>()
                 .HasKey(ps => new { ps.PersonId, ps.SymposiumId });
 

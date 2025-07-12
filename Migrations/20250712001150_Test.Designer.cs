@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using apis.Data;
 
@@ -10,9 +11,11 @@ using apis.Data;
 namespace apis.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250712001150_Test")]
+    partial class Test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,15 +39,15 @@ namespace apis.Migrations
 
             modelBuilder.Entity("PersonScientificCommittee", b =>
                 {
-                    b.Property<int>("PersonId")
+                    b.Property<int>("PeopleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ScientificCommiteeId")
+                    b.Property<int>("ScientificCommiteesId")
                         .HasColumnType("int");
 
-                    b.HasKey("PersonId", "ScientificCommiteeId");
+                    b.HasKey("PeopleId", "ScientificCommiteesId");
 
-                    b.HasIndex("ScientificCommiteeId");
+                    b.HasIndex("ScientificCommiteesId");
 
                     b.ToTable("PersonScientificCommittee");
                 });
@@ -348,13 +351,13 @@ namespace apis.Migrations
                 {
                     b.HasOne("apis.Models.Person", null)
                         .WithMany()
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("PeopleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("apis.Models.ScientificCommittee", null)
                         .WithMany()
-                        .HasForeignKey("ScientificCommiteeId")
+                        .HasForeignKey("ScientificCommiteesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -20,7 +20,7 @@
         public string Name { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
-        public ICollection<Person> People { get; set; } = [];
+        public ICollection<Person> Person { get; set; } = [];
         public ICollection<ArticleReview> ArticleReviews { get; set; } = [];
     }
 }
