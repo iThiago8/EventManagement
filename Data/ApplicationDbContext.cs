@@ -22,12 +22,12 @@ namespace apis.Data
 
             modelBuilder.Entity<ArticleReview>()
                 .HasOne(asc => asc.Article)
-                .WithMany(a => a.ArticleReviews)
+                .WithMany(a => a.ArticleReview)
                 .HasForeignKey(asc => asc.ArticleId);
 
             modelBuilder.Entity<ArticleReview>()
                 .HasOne(asc => asc.ScientificCommittee)
-                .WithMany(sc => sc.ArticleReviews)
+                .WithMany(sc => sc.ArticleReview)
                 .HasForeignKey(asc => asc.ScientificCommitteeId);
 
             modelBuilder.Entity<PersonSymposium>()

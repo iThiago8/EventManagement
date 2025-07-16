@@ -11,8 +11,8 @@ using apis.Data;
 namespace apis.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250711234449_WorkshopSymposium")]
-    partial class WorkshopSymposium
+    [Migration("20250716214341_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,30 +24,30 @@ namespace apis.Migrations
 
             modelBuilder.Entity("ArticlePerson", b =>
                 {
-                    b.Property<int>("ArticlesId")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AuthorsId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.HasKey("ArticlesId", "AuthorsId");
+                    b.HasKey("ArticleId", "AuthorId");
 
-                    b.HasIndex("AuthorsId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("ArticlePerson");
                 });
 
             modelBuilder.Entity("PersonScientificCommittee", b =>
                 {
-                    b.Property<int>("PeopleId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ScientificCommiteesId")
+                    b.Property<int>("ScientificCommiteeId")
                         .HasColumnType("int");
 
-                    b.HasKey("PeopleId", "ScientificCommiteesId");
+                    b.HasKey("PersonId", "ScientificCommiteeId");
 
-                    b.HasIndex("ScientificCommiteesId");
+                    b.HasIndex("ScientificCommiteeId");
 
                     b.ToTable("PersonScientificCommittee");
                 });
@@ -336,13 +336,13 @@ namespace apis.Migrations
                 {
                     b.HasOne("apis.Models.Article", null)
                         .WithMany()
-                        .HasForeignKey("ArticlesId")
+                        .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("apis.Models.Person", null)
                         .WithMany()
-                        .HasForeignKey("AuthorsId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -351,13 +351,13 @@ namespace apis.Migrations
                 {
                     b.HasOne("apis.Models.Person", null)
                         .WithMany()
-                        .HasForeignKey("PeopleId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("apis.Models.ScientificCommittee", null)
                         .WithMany()
-                        .HasForeignKey("ScientificCommiteesId")
+                        .HasForeignKey("ScientificCommiteeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -376,13 +376,13 @@ namespace apis.Migrations
             modelBuilder.Entity("apis.Models.ArticleReview", b =>
                 {
                     b.HasOne("apis.Models.Article", "Article")
-                        .WithMany("ArticleReviews")
+                        .WithMany("ArticleReview")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("apis.Models.ScientificCommittee", "ScientificCommittee")
-                        .WithMany("ArticleReviews")
+                        .WithMany("ArticleReview")
                         .HasForeignKey("ScientificCommitteeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -492,7 +492,7 @@ namespace apis.Migrations
 
             modelBuilder.Entity("apis.Models.Article", b =>
                 {
-                    b.Navigation("ArticleReviews");
+                    b.Navigation("ArticleReview");
                 });
 
             modelBuilder.Entity("apis.Models.Person", b =>
@@ -504,7 +504,7 @@ namespace apis.Migrations
 
             modelBuilder.Entity("apis.Models.ScientificCommittee", b =>
                 {
-                    b.Navigation("ArticleReviews");
+                    b.Navigation("ArticleReview");
                 });
 
             modelBuilder.Entity("apis.Models.Symposium", b =>
