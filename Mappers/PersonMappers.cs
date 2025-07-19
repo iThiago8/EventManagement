@@ -17,15 +17,15 @@ namespace apis.Mappers
                 BirthDate = personModel.BirthDate
             };
         }
-        public static Person ToPersonFromCreateDTO(this CreatePersonRequestDto personDto)
+        public static Person ToPersonFromCreateDto(this CreatePersonRequestDto personDto)
         {
             return new Person
             {
                 Cpf = personDto.Cpf,
-                Name = personDto.Nome,
+                Name = personDto.Name,
                 Email = personDto.Email,
-                PhoneNumber = personDto.Telefone,
-                BirthDate = personDto.Data_Nascimento
+                PhoneNumber = personDto.PhoneNumber,
+                BirthDate = personDto.BirthDate
             };
         }
     }

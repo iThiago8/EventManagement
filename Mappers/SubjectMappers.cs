@@ -1,0 +1,25 @@
+﻿using apis.Dtos.Subject;
+using apis.Models;
+
+namespace apis.Mappers
+{
+    public static class SubjectMappers
+    {
+        public static SubjectDto ToSubjectDto(this Subject subjectModel)
+        {
+            return new SubjectDto
+            {
+                Id = subjectModel.Id,
+                Name = subjectModel.Name
+            };
+        }
+
+        public static Subject ToSubjectFromCreateDto(this CreateSubjectRequestDto subjectDto)
+        {
+            return new Subject
+            {
+                Name = subjectDto.Name
+            };
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using apis.Data;
+using apis.Dtos.Person;
 using apis.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ namespace apis.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] CreatePersonRequestDto personDto)
         {
-            var personModel = personDto.ToPersonFromCreateDTO();
+            var personModel = personDto.ToPersonFromCreateDto();
             _context.Person.Add(personModel);
             _context.SaveChanges();
 
