@@ -13,7 +13,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    //options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 

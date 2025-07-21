@@ -4,7 +4,6 @@ using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace apis.Controllers
 {
