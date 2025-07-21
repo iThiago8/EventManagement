@@ -1,18 +1,21 @@
 ﻿using apis.Data;
 using apis.Dtos.Person;
+using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace apis.Controllers
 {
     [Route("api/person")]
     [ApiController]
-    public class PersonController(ApplicationDbContext context) : ControllerBase
+    public class PersonController(ApplicationDbContext context, IPersonRepository personRepo) : ControllerBase
     {
         private readonly ApplicationDbContext _context = context;
+        private readonly IPersonRepository _personRepo = personRepo;
 
-        private bool IsPersonModelInvalid(Person person)
+        private static bool IsPersonModelInvalid(Person person)
         {
             return string.IsNullOrWhiteSpace(person.Cpf) ||
                     string.IsNullOrWhiteSpace(person.Name) ||
@@ -20,71 +23,58 @@ namespace apis.Controllers
                     string.IsNullOrWhiteSpace(person.PhoneNumber);
         }
 
-
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var people = _context.Person.ToList().Select(p => p.ToPersonDto());
+            var people = await _personRepo.GetAllAsync();
+
+            /*var personDto = people.Select(p => p.ToPersonDto());*/
 
             return Ok(people);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var person = _context.Person.Find(id);
+            var person = await _personRepo.GetByIdAsync(id);
 
             if (person != null)
                 return Ok(person);
             else
-                return Ok("Pessoa não encontrada");
+                return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePersonRequestDto personDto)
+        public async Task<IActionResult> Create([FromBody] CreatePersonRequestDto personDto)
         {
             var personModel = personDto.ToPersonFromCreateDto();
-            _context.Person.Add(personModel);
-            _context.SaveChanges();
 
             if (IsPersonModelInvalid(personModel))
                 return BadRequest();
+
+            await _personRepo.CreateAsync(personModel);
 
             return CreatedAtAction(nameof(GetById), new { id = personModel.Id }, personModel.ToPersonDto());
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdatePersonRequestDto updateDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePersonRequestDto updateDto)
         {
-            var personModel = _context.Person.FirstOrDefault(p => p.Id == id);
+            var personModel = await _personRepo.UpdateAsync(id, updateDto);
 
             if (personModel == null)
                 return NotFound();
-
-            if (IsPersonModelInvalid(personModel))
-                return BadRequest();
-
-            personModel.Cpf = updateDto.Cpf;
-            personModel.Name = updateDto.Name;
-            personModel.Email = updateDto.Email;
-            personModel.PhoneNumber = updateDto.PhoneNumber;
-            personModel.BirthDate = updateDto.BirthDate;
-
-            _context.SaveChanges();
-
-            return Ok(personModel.ToPersonDto());
+                        
+            return Ok(personModel);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var personModel = _context.Person.FirstOrDefault(p => p.Id == id);
+            var personModel = await _personRepo.DeleteAsync(id);
 
             if (personModel == null)
                 return NotFound();
-
-            _context.Person.Remove(personModel);
-            _context.SaveChanges();
 
             return NoContent();
         }
