@@ -10,9 +10,8 @@ namespace apis.Controllers
 {
     [Route("api/person")]
     [ApiController]
-    public class PersonController(ApplicationDbContext context, IPersonRepository personRepo) : ControllerBase
+    public class PersonController(IPersonRepository personRepo) : ControllerBase
     {
-        private readonly ApplicationDbContext _context = context;
         private readonly IPersonRepository _personRepo = personRepo;
 
         private static bool IsPersonModelInvalid(Person person)
@@ -27,8 +26,6 @@ namespace apis.Controllers
         public async Task<IActionResult> GetAll()
         {
             var people = await _personRepo.GetAllAsync();
-
-            /*var personDto = people.Select(p => p.ToPersonDto());*/
 
             return Ok(people);
         }

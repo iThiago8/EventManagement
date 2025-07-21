@@ -2,10 +2,9 @@
 using apis.Dtos.Person;
 using apis.Interfaces;
 using apis.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repository
+namespace apis.Repositories
 {
     public class PersonRepository(ApplicationDbContext context) : IPersonRepository
     {
