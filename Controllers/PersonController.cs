@@ -34,10 +34,10 @@ namespace apis.Controllers
         {
             var person = await _personRepo.GetByIdAsync(id);
 
-            if (person != null)
-                return Ok(person);
-            else
+            if (person == null)
                 return NotFound();
+            else
+                return Ok(person);
         }
 
         [HttpPost]
