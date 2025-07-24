@@ -42,7 +42,7 @@ namespace apis.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateAddressRequestDto addressDto, [FromRoute] int id)
         {
-            var addressModel = await _addressRepo.UpdateAsync(addressDto, id);
+            var addressModel = await _addressRepo.UpdateAsync(id, addressDto);
 
             if (addressModel == null)
                 return NotFound();

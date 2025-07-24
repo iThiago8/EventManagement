@@ -1,0 +1,29 @@
+﻿using apis.Dtos.Workshop;
+using apis.Models;
+
+namespace apis.Mappers
+{
+    public static class WorkshopMappers
+    {
+        public static WorkshopDto ToWorkshopDto(this Workshop workshopModel)
+        {
+            return new WorkshopDto
+            {
+                Id = workshopModel.Id,
+                Hours = workshopModel.Hours,
+                Name = workshopModel.Name,
+                SubjectId = workshopModel.SubjectId
+            };
+        }
+
+        public static Workshop ToWorkshopFromCreateDto(this CreateWorkshopRequestDto workshopDto)
+        {
+            return new Workshop
+            {
+                Hours = workshopDto.Hours,
+                Name = workshopDto.Name,
+                SubjectId = workshopDto.SubjectId
+            };
+        }
+    }
+}

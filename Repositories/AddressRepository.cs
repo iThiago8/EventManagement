@@ -22,7 +22,7 @@ namespace apis.Repositories
 
         public async Task<Address?> DeleteAsync(int id)
         {
-            var addressModel = await _context.Address.FirstOrDefaultAsync(a => a.Id == id);
+            var addressModel = await GetByIdAsync(id);
 
             if (addressModel == null)
                 return null;
@@ -43,9 +43,9 @@ namespace apis.Repositories
             return await _context.Address.FindAsync(id);
         }
 
-        public async Task<Address?> UpdateAsync(UpdateAddressRequestDto addressDto, int id)
+        public async Task<Address?> UpdateAsync(int id, UpdateAddressRequestDto addressDto)
         {
-            var existingAddress = await _context.Address.FirstOrDefaultAsync(a => a.Id == id);
+            var existingAddress = await GetByIdAsync(id);
 
             if (existingAddress == null)
                 return null;

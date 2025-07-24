@@ -54,5 +54,10 @@ namespace apis.Repositories
 
             return existingSubject;
         }
+
+        public async Task<bool> SubjectExists(int id)
+        {
+            return await _context.Subject.AnyAsync(s => s.Id == id);
+        }
     }
 }

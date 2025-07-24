@@ -14,9 +14,7 @@ namespace apis.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var subjects = await _subjectRepo.GetAllAsync();
-
-            return Ok(subjects);
+            return Ok(await _subjectRepo.GetAllAsync());
         }
         
         [HttpGet("{id}")]

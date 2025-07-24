@@ -10,5 +10,6 @@ namespace apis.Interfaces
         Task<Subject> CreateAsync(Subject subjectModel);
         Task<Subject?> UpdateAsync(int id, UpdateSubjectRequestDto subjectDto);
         Task<Subject?> DeleteAsync(int id);
+        Task<bool> SubjectExists(int id);
     }
 }
