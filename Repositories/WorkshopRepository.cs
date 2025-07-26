@@ -10,7 +10,7 @@ namespace apis.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<Workshop?> CreateAsync(Workshop workshopModel)
+        public async Task<Workshop> CreateAsync(Workshop workshopModel)
         {
             var subjectModel = await _context.Subject.FindAsync(workshopModel.SubjectId);
 

@@ -7,7 +7,7 @@ namespace apis.Interfaces
     {
         Task<List<Symposium>> GetAllAsync();
         Task<Symposium?> GetByIdAsync(int id);
-        Task<Symposium?> CreateAsync(Symposium symposiumModel);
+        Task<Symposium> CreateAsync(Symposium symposiumModel);
         Task<Symposium?> UpdateAsync(int id, UpdateSymposiumRequestDto updateDto);
         Task<Symposium?> DeleteAsync(int id);
     }

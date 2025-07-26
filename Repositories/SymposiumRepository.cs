@@ -10,7 +10,7 @@ namespace apis.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<Symposium?> CreateAsync(Symposium symposiumModel)
+        public async Task<Symposium> CreateAsync(Symposium symposiumModel)
         {
             var addressModel = await _context.Address.FindAsync(symposiumModel.LocationAddressId);
 

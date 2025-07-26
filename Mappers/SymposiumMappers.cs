@@ -14,7 +14,8 @@ namespace apis.Mappers
                 Description = symposiumModel.Description,
                 StartDate = symposiumModel.StartDate,
                 EndDate = symposiumModel.EndDate,
-                LocationAddressId = symposiumModel.LocationAddressId
+                LocationAddressId = symposiumModel.LocationAddressId,
+                LocationAddress = symposiumModel.LocationAddress
             };
         }
 

@@ -37,9 +37,7 @@ namespace apis.Controllers
             if (!addressExists)
                 return NotFound();
 
-            var symposiumModel = symposiumDto.ToSymposiumFromCreateDto();
-
-            await _symposiumRepo.CreateAsync(symposiumModel);
+            var symposiumModel = await _symposiumRepo.CreateAsync(symposiumDto.ToSymposiumFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = symposiumModel.Id }, symposiumModel.ToSymposiumDto());
         }

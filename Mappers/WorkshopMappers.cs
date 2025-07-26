@@ -12,7 +12,8 @@ namespace apis.Mappers
                 Id = workshopModel.Id,
                 Hours = workshopModel.Hours,
                 Name = workshopModel.Name,
-                SubjectId = workshopModel.SubjectId
+                SubjectId = workshopModel.SubjectId,
+                Subject = workshopModel.Subject
             };
         }
 

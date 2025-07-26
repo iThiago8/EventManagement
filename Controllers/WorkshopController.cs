@@ -37,9 +37,7 @@ namespace apis.Controllers
             if (!subjectExists)
                 return NotFound();
 
-            var workshopModel = workshopDto.ToWorkshopFromCreateDto();
-
-            await _workshopRepo.CreateAsync(workshopModel);
+            var workshopModel = await _workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = workshopModel.Id }, workshopModel.ToWorkshopDto());
         }

@@ -16,7 +16,6 @@ namespace apis.Repositories
             await _context.SaveChangesAsync();
 
             return subjectModel;
-
         }
 
         public async Task<Subject?> DeleteAsync(int id)
