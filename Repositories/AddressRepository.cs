@@ -12,6 +12,11 @@ namespace apis.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
+        public async Task<bool> AddressExists(int id)
+        {
+            return await _context.Address.AnyAsync(a => a.Id == id);
+        }
+
         public async Task<Address> CreateAsync(Address addressModel)
         {
             await _context.Address.AddAsync(addressModel);

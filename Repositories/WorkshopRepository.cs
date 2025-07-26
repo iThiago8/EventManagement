@@ -12,12 +12,9 @@ namespace apis.Repositories
 
         public async Task<Workshop?> CreateAsync(Workshop workshopModel)
         {
-            var subjectModel = _context.Subject.Find(workshopModel.SubjectId);
+            var subjectModel = await _context.Subject.FindAsync(workshopModel.SubjectId);
 
-            if (subjectModel == null)
-                return null;
-
-            workshopModel.Subject = subjectModel;
+            workshopModel.Subject = subjectModel!;
 
             await _context.Workshop.AddAsync(workshopModel);
             await _context.SaveChangesAsync();

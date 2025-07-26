@@ -1,6 +1,58 @@
-﻿namespace apis.Controllers
+﻿using apis.Dtos.Symposium;
+using apis.Interfaces;
+using apis.Mappers;
+using Microsoft.AspNetCore.Mvc;
+
+namespace apis.Controllers
 {
-    public class SymposiumController
+    [Route("api/symposium")]
+    [ApiController]
+    public class SymposiumController(ISymposiumRepository symposiumRepo, IAddressRepository addressRepo) : ControllerBase
     {
+        private readonly ISymposiumRepository _symposiumRepo = symposiumRepo;
+        private readonly IAddressRepository _addressRepo = addressRepo;
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _symposiumRepo.GetAllAsync());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var symposiumModel = await _symposiumRepo.GetByIdAsync(id);
+
+            if (symposiumModel == null)
+                return NotFound();
+            else
+                return Ok(symposiumModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateSymposiumRequestDto symposiumDto)
+        {
+            bool addressExists = await _addressRepo.AddressExists(symposiumDto.LocationAddressId);
+
+            if (!addressExists)
+                return NotFound();
+
+            var symposiumModel = symposiumDto.ToSymposiumFromCreateDto();
+
+            await _symposiumRepo.CreateAsync(symposiumModel);
+
+            return CreatedAtAction(nameof(GetById), new { id = symposiumModel.Id }, symposiumModel.ToSymposiumDto());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var symposiumModel = await _symposiumRepo.DeleteAsync(id);
+
+            if (symposiumModel == null)
+                return NotFound();
+            else
+                return NoContent();
+        }
     }
 }

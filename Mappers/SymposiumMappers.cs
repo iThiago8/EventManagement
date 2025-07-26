@@ -1,6 +1,5 @@
 ﻿using apis.Dtos.Symposium;
 using apis.Models;
-using System.Xml.Linq;
 
 namespace apis.Mappers
 {

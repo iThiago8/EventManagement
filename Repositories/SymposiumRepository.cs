@@ -1,29 +1,48 @@
-﻿using apis.Dtos.Symposium;
+﻿using apis.Data;
+using apis.Dtos.Symposium;
 using apis.Interfaces;
 using apis.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace apis.Repositories
 {
-    public class SymposiumRepository : ISymposiumRepository
+    public class SymposiumRepository(ApplicationDbContext context) : ISymposiumRepository
     {
-        public Task<Symposium> CreateAsync(Symposium symposiumModel)
+        private readonly ApplicationDbContext _context = context;
+
+        public async Task<Symposium?> CreateAsync(Symposium symposiumModel)
         {
-            throw new NotImplementedException();
+            var addressModel = await _context.Address.FindAsync(symposiumModel.LocationAddressId);
+
+            symposiumModel.LocationAddress = addressModel!;
+
+            await _context.Symposium.AddAsync(symposiumModel);
+            await _context.SaveChangesAsync();
+
+            return symposiumModel;
         }
 
-        public Task<Symposium?> DeleteAsync(int id)
+        public async Task<Symposium?> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var symposiumModel = await _context.Symposium.FindAsync(id);
+
+            if (symposiumModel == null)
+                return null;
+
+            _context.Remove(symposiumModel);
+            await _context.SaveChangesAsync();
+
+            return symposiumModel;
         }
 
-        public Task<List<Symposium>> GetAllAsync()
+        public async Task<List<Symposium>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Symposium.Include(s => s.LocationAddress).ToListAsync();
         }
 
-        public Task<Symposium?> GetByIdAsync(int id)
+        public async Task<Symposium?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<Symposium?> UpdateAsync(int id, UpdateSymposiumRequestDto updateDto)
