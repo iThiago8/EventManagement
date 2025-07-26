@@ -3,8 +3,6 @@ using apis.Dtos.Address;
 using apis.Interfaces;
 using apis.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace apis.Repositories
 {
@@ -27,7 +25,7 @@ namespace apis.Repositories
 
         public async Task<Address?> DeleteAsync(int id)
         {
-            var addressModel = await GetByIdAsync(id);
+            Address? addressModel = await GetByIdAsync(id);
 
             if (addressModel == null)
                 return null;
@@ -50,7 +48,7 @@ namespace apis.Repositories
 
         public async Task<Address?> UpdateAsync(int id, UpdateAddressRequestDto addressDto)
         {
-            var existingAddress = await GetByIdAsync(id);
+            Address? existingAddress = await GetByIdAsync(id);
 
             if (existingAddress == null)
                 return null;

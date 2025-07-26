@@ -12,7 +12,7 @@ namespace apis.Repositories
 
         public async Task<Workshop> CreateAsync(Workshop workshopModel)
         {
-            var subjectModel = await _context.Subject.FindAsync(workshopModel.SubjectId);
+            Subject? subjectModel = await _context.Subject.FindAsync(workshopModel.SubjectId);
 
             workshopModel.Subject = subjectModel!;
 
@@ -24,7 +24,7 @@ namespace apis.Repositories
 
         public async Task<Workshop?> DeleteAsync(int id)
         {
-            var workshopModel = await GetByIdAsync(id);
+            Workshop? workshopModel = await GetByIdAsync(id);
 
             if (workshopModel == null)
                 return null;
@@ -47,12 +47,12 @@ namespace apis.Repositories
 
         public async Task<Workshop?> UpdateAsync(int id, UpdateWorkshopRequestDto workshopDto)
         {
-            var existingWorkshop = await _context.Workshop.Include(w => w.Subject).FirstOrDefaultAsync(w => w.Id == id);
+            Workshop? existingWorkshop = await _context.Workshop.Include(w => w.Subject).FirstOrDefaultAsync(w => w.Id == id);
 
             if (existingWorkshop == null)
                 return null;
 
-            var newSubject = await _context.Subject.FindAsync(existingWorkshop.SubjectId);
+            Subject? newSubject = await _context.Subject.FindAsync(existingWorkshop.SubjectId);
 
             existingWorkshop.Name = workshopDto.Name;
             existingWorkshop.Hours = workshopDto.Hours;

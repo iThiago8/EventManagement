@@ -1,6 +1,7 @@
 ﻿using apis.Dtos.Workshop;
 using apis.Interfaces;
 using apis.Mappers;
+using apis.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -21,7 +22,7 @@ namespace apis.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var workshopModel = await _workshopRepo.GetByIdAsync(id);
+            Workshop? workshopModel = await _workshopRepo.GetByIdAsync(id);
 
             if (workshopModel == null)
                 return NotFound();
@@ -37,7 +38,7 @@ namespace apis.Controllers
             if (!subjectExists)
                 return NotFound();
 
-            var workshopModel = await _workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
+            Workshop workshopModel = await _workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = workshopModel.Id }, workshopModel.ToWorkshopDto());
         }
@@ -50,15 +51,18 @@ namespace apis.Controllers
             if (!subjectExists)
                 return NotFound();
 
-            var workshopModel = await _workshopRepo.UpdateAsync(id, workshopDto);
+            Workshop? workshopModel = await _workshopRepo.UpdateAsync(id, workshopDto);
 
-            return Ok(workshopModel);
+            if (workshopModel == null)
+                return NotFound();
+            else
+                return Ok(workshopModel);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var workshopModel = await _workshopRepo.DeleteAsync(id);
+            Workshop? workshopModel = await _workshopRepo.DeleteAsync(id);
 
             if (workshopModel == null)
                 return NotFound();

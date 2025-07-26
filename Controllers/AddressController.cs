@@ -1,6 +1,7 @@
 ﻿using apis.Dtos.Address;
 using apis.Interfaces;
 using apis.Mappers;
+using apis.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 
@@ -21,7 +22,7 @@ namespace apis.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var addressModel = await _addressRepo.GetByIdAsync(id);
+            Address? addressModel = await _addressRepo.GetByIdAsync(id);
 
             if (addressModel == null)
                 return NotFound();
@@ -32,7 +33,7 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAddressRequestDto addressDto)
         {
-            var addressModel = addressDto.ToAddressFromCreateDto();
+            Address addressModel = addressDto.ToAddressFromCreateDto();
 
             await _addressRepo.CreateAsync(addressModel);
 
@@ -42,7 +43,7 @@ namespace apis.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdateAddressRequestDto addressDto, [FromRoute] int id)
         {
-            var addressModel = await _addressRepo.UpdateAsync(id, addressDto);
+            Address? addressModel = await _addressRepo.UpdateAsync(id, addressDto);
 
             if (addressModel == null)
                 return NotFound();
@@ -53,7 +54,7 @@ namespace apis.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var addressModel = await _addressRepo.DeleteAsync(id);
+            Address? addressModel = await _addressRepo.DeleteAsync(id);
 
             if (addressModel == null)
                 return NotFound();

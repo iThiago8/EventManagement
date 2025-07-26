@@ -12,7 +12,7 @@ namespace apis.Repositories
 
         public async Task<Symposium> CreateAsync(Symposium symposiumModel)
         {
-            var addressModel = await _context.Address.FindAsync(symposiumModel.LocationAddressId);
+            Address? addressModel = await _context.Address.FindAsync(symposiumModel.LocationAddressId);
 
             symposiumModel.LocationAddress = addressModel!;
 
@@ -24,7 +24,7 @@ namespace apis.Repositories
 
         public async Task<Symposium?> DeleteAsync(int id)
         {
-            var symposiumModel = await _context.Symposium.FindAsync(id);
+            Symposium? symposiumModel = await _context.Symposium.FindAsync(id);
 
             if (symposiumModel == null)
                 return null;
@@ -45,9 +45,25 @@ namespace apis.Repositories
             return await _context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Task<Symposium?> UpdateAsync(int id, UpdateSymposiumRequestDto updateDto)
+        public async Task<Symposium?> UpdateAsync(int id, UpdateSymposiumRequestDto updateDto)
         {
-            throw new NotImplementedException();
+            Symposium? existingSymposium = await _context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
+
+            if (existingSymposium == null)
+                return null;
+
+            Address? newAddress = await _context.Address.FindAsync(updateDto.LocationAddressId);
+
+            existingSymposium.Name = updateDto.Name;
+            existingSymposium.StartDate = updateDto.StartDate;
+            existingSymposium.EndDate = updateDto.EndDate;
+            existingSymposium.LocationAddressId = updateDto.LocationAddressId;
+            existingSymposium.LocationAddress = newAddress!;
+            existingSymposium.Description = updateDto.Description;
+
+            await _context.SaveChangesAsync();
+
+            return existingSymposium;
         }
     }
 }

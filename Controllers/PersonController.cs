@@ -15,7 +15,7 @@ namespace apis.Controllers
 
         private static bool IsPersonModelInvalid(Person person)
         {
-            return string.IsNullOrWhiteSpace(person.Cpf) ||
+            return  string.IsNullOrWhiteSpace(person.Cpf) ||
                     string.IsNullOrWhiteSpace(person.Name) ||
                     string.IsNullOrWhiteSpace(person.Email) ||
                     string.IsNullOrWhiteSpace(person.PhoneNumber);
@@ -24,15 +24,13 @@ namespace apis.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var people = await _personRepo.GetAllAsync();
-
-            return Ok(people);
+            return Ok(await _personRepo.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var person = await _personRepo.GetByIdAsync(id);
+            Person? person = await _personRepo.GetByIdAsync(id);
 
             if (person == null)
                 return NotFound();
@@ -43,7 +41,7 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatePersonRequestDto personDto)
         {
-            var personModel = personDto.ToPersonFromCreateDto();
+            Person personModel = personDto.ToPersonFromCreateDto();
 
             if (IsPersonModelInvalid(personModel))
                 return BadRequest();
@@ -56,23 +54,23 @@ namespace apis.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePersonRequestDto updateDto)
         {
-            var personModel = await _personRepo.UpdateAsync(id, updateDto);
+            Person? personModel = await _personRepo.UpdateAsync(id, updateDto);
 
             if (personModel == null)
                 return NotFound();
-                        
-            return Ok(personModel);
+            else
+                return Ok(personModel);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var personModel = await _personRepo.DeleteAsync(id);
+            Person? personModel = await _personRepo.DeleteAsync(id);
 
             if (personModel == null)
                 return NotFound();
-
-            return NoContent();
+            else
+                return NoContent();
         }
     }
 }

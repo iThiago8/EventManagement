@@ -20,7 +20,7 @@ namespace apis.Repositories
 
         public async Task<Person?> DeleteAsync(int id)
         {
-            var personModel = await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
+            Person? personModel = await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
 
             if (personModel == null)
                 return null;
@@ -43,7 +43,7 @@ namespace apis.Repositories
 
         public async Task<Person?> UpdateAsync(int id, UpdatePersonRequestDto personDto)
         {
-            var existingPerson = await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
+            Person? existingPerson = await _context.Person.FirstOrDefaultAsync(p => p.Id == id);
 
             if (existingPerson == null)
                 return null;

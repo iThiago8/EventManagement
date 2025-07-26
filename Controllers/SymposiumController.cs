@@ -1,6 +1,7 @@
 ﻿using apis.Dtos.Symposium;
 using apis.Interfaces;
 using apis.Mappers;
+using apis.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -40,6 +41,22 @@ namespace apis.Controllers
             var symposiumModel = await _symposiumRepo.CreateAsync(symposiumDto.ToSymposiumFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = symposiumModel.Id }, symposiumModel.ToSymposiumDto());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSymposiumRequestDto symposiumDto)
+        {
+            bool addressExists = await _addressRepo.AddressExists(symposiumDto.LocationAddressId);
+
+            if (!addressExists)
+                return NotFound();
+
+            Symposium? symposiumModel = await _symposiumRepo.UpdateAsync(id, symposiumDto);
+
+            if (symposiumModel == null)
+                return NotFound();
+            else
+                return Ok(symposiumModel);
         }
 
         [HttpDelete("{id}")]

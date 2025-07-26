@@ -2,6 +2,7 @@
 using apis.Mappers;
 using apis.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using apis.Models;
 
 namespace apis.Controllers
 {
@@ -20,7 +21,7 @@ namespace apis.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var subject = await _subjectRepo.GetByIdAsync(id);
+            Subject? subject = await _subjectRepo.GetByIdAsync(id);
 
             if (subject == null)
                 return NotFound();
@@ -31,7 +32,7 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSubjectRequestDto subjectDto)
         {
-            var subjectModel = subjectDto.ToSubjectFromCreateDto();
+            Subject subjectModel = subjectDto.ToSubjectFromCreateDto();
             await _subjectRepo.CreateAsync(subjectModel);
 
             return CreatedAtAction(nameof(GetById), new { id = subjectModel.Id }, subjectModel.ToSubjectDto());
@@ -41,7 +42,7 @@ namespace apis.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSubjectRequestDto updateDto)
         {
-            var subjectModel = await _subjectRepo.UpdateAsync(id, updateDto);
+            Subject? subjectModel = await _subjectRepo.UpdateAsync(id, updateDto);
 
             if (subjectModel == null)
                 return NotFound();
@@ -53,7 +54,7 @@ namespace apis.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var subjectModel = await _subjectRepo.DeleteAsync(id);
+            Subject? subjectModel = await _subjectRepo.DeleteAsync(id);
 
             if (subjectModel == null)
                 return NotFound();
