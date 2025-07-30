@@ -1,6 +1,7 @@
 ﻿using apis.Data;
 using apis.Dtos.Article;
 using apis.Dtos.Person;
+using apis.Dtos.Workshop;
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
@@ -22,32 +23,37 @@ namespace apis.Controllers
             return Ok(await _articleRepo.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             return Ok(await _articleRepo.GetByIdAsync(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateArticleRequestDto articleDto)
         {
-            bool subjectExists = await _subjectRepo.SubjectExists(articleDto.SubjectId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (!subjectExists)
-                return NotFound();
+            if (!await _subjectRepo.SubjectExists(articleDto.SubjectId))
+                return BadRequest("Subject does not exist.");
 
             Article articleModel = await _articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel.ToArticleDto());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateArticleRequestDto articleDto)
         {
-            bool subjectExists = await _subjectRepo.SubjectExists(articleDto.SubjectId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (!subjectExists)
-                return NotFound();
+            if (!await _subjectRepo.SubjectExists(articleDto.SubjectId))
+                return BadRequest("Subject does not exist.");
 
             Article? articleModel = await _articleRepo.UpdateAsync(id, articleDto);
 
@@ -57,7 +63,7 @@ namespace apis.Controllers
                 return Ok(articleModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Article? articleModel = await _articleRepo.DeleteAsync(id);

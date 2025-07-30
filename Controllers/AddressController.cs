@@ -19,9 +19,12 @@ namespace apis.Controllers
             return Ok(await _addressRepo.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Address? addressModel = await _addressRepo.GetByIdAsync(id);
 
             if (addressModel == null)
@@ -33,6 +36,9 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateAddressRequestDto addressDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             Address addressModel = addressDto.ToAddressFromCreateDto();
 
             await _addressRepo.CreateAsync(addressModel);
@@ -40,9 +46,12 @@ namespace apis.Controllers
             return CreatedAtAction(nameof(GetById), new { id = addressModel.Id }, addressModel.ToAddressDto());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromBody] UpdateAddressRequestDto addressDto, [FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Address? addressModel = await _addressRepo.UpdateAsync(id, addressDto);
 
             if (addressModel == null)
@@ -51,7 +60,7 @@ namespace apis.Controllers
                 return Ok(addressModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Address? addressModel = await _addressRepo.DeleteAsync(id);

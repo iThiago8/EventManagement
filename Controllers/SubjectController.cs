@@ -18,9 +18,12 @@ namespace apis.Controllers
             return Ok(await _subjectRepo.GetAllAsync());
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Subject? subject = await _subjectRepo.GetByIdAsync(id);
 
             if (subject == null)
@@ -32,6 +35,9 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSubjectRequestDto subjectDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Subject subjectModel = subjectDto.ToSubjectFromCreateDto();
             await _subjectRepo.CreateAsync(subjectModel);
 
@@ -39,9 +45,12 @@ namespace apis.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSubjectRequestDto updateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Subject? subjectModel = await _subjectRepo.UpdateAsync(id, updateDto);
 
             if (subjectModel == null)
@@ -51,7 +60,7 @@ namespace apis.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Subject? subjectModel = await _subjectRepo.DeleteAsync(id);

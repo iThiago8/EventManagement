@@ -19,9 +19,12 @@ namespace apis.Controllers
             return Ok(await _scientificCommitteeRepo.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             ScientificCommittee? scientificCommitteeModel = await _scientificCommitteeRepo.GetByIdAsync(id);
 
             if (scientificCommitteeModel == null)
@@ -33,6 +36,9 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateScientificCommitteeRequestDto scientificCommitteeDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             bool subjectExists = await _subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
 
             if (!subjectExists)
@@ -43,9 +49,12 @@ namespace apis.Controllers
             return CreatedAtAction(nameof(GetById), new { id = scientificCommitteeModel.Id }, scientificCommitteeModel.ToScientificCommitteeDto());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateScientificCommitteeResquestDto scientificCommitteeDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             bool subjectExists = await _subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
 
             if (!subjectExists)
@@ -59,7 +68,7 @@ namespace apis.Controllers
                 return Ok(scientificCommitteeModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             ScientificCommittee? scientificCommitteeModel = await _scientificCommitteeRepo.DeleteAsync(id);

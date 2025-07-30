@@ -19,9 +19,12 @@ namespace apis.Controllers
             return Ok(await _workshopRepo.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Workshop? workshopModel = await _workshopRepo.GetByIdAsync(id);
 
             if (workshopModel == null)
@@ -33,23 +36,25 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateWorkshopRequestDto workshopDto)
         {
-            bool subjectExists = await _subjectRepo.SubjectExists(workshopDto.SubjectId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (!subjectExists)
-                return NotFound();
+            if (!await _subjectRepo.SubjectExists(workshopDto.SubjectId))
+                return BadRequest("Subject does not exist.");
 
             Workshop workshopModel = await _workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = workshopModel.Id }, workshopModel.ToWorkshopDto());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateWorkshopRequestDto workshopDto)
         {
-            bool subjectExists = await _subjectRepo.SubjectExists(workshopDto.SubjectId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (!subjectExists)
-                return NotFound();
+            if (!await _subjectRepo.SubjectExists(workshopDto.SubjectId))
+                return BadRequest("Subject does not exist.");
 
             Workshop? workshopModel = await _workshopRepo.UpdateAsync(id, workshopDto);
 
@@ -59,7 +64,7 @@ namespace apis.Controllers
                 return Ok(workshopModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Workshop? workshopModel = await _workshopRepo.DeleteAsync(id);

@@ -13,23 +13,18 @@ namespace apis.Controllers
     {
         private readonly IPersonRepository _personRepo = personRepo;
 
-        private static bool IsPersonModelInvalid(Person person)
-        {
-            return  string.IsNullOrWhiteSpace(person.Cpf) ||
-                    string.IsNullOrWhiteSpace(person.Name) ||
-                    string.IsNullOrWhiteSpace(person.Email) ||
-                    string.IsNullOrWhiteSpace(person.PhoneNumber);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _personRepo.GetAllAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             Person? person = await _personRepo.GetByIdAsync(id);
 
             if (person == null)
@@ -41,19 +36,22 @@ namespace apis.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatePersonRequestDto personDto)
         {
-            Person personModel = personDto.ToPersonFromCreateDto();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (IsPersonModelInvalid(personModel))
-                return BadRequest();
+            Person personModel = personDto.ToPersonFromCreateDto();
 
             await _personRepo.CreateAsync(personModel);
 
             return CreatedAtAction(nameof(GetById), new { id = personModel.Id }, personModel.ToPersonDto());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePersonRequestDto updateDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState); 
+            
             Person? personModel = await _personRepo.UpdateAsync(id, updateDto);
 
             if (personModel == null)
@@ -62,7 +60,7 @@ namespace apis.Controllers
                 return Ok(personModel);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Person? personModel = await _personRepo.DeleteAsync(id);
