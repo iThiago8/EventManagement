@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace apis.Data
 {
-    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
+        public ApplicationDbContext(DbContextOptions options) : base(options);
+
         public DbSet<Person> Person { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Article> Article { get; set; }
