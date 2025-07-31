@@ -1,5 +1,5 @@
-﻿using apis.Data;
-using apis.Dtos.Person;
+﻿using apis.Dtos.Person;
+using apis.Helpers.QueryObjects;
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
@@ -11,12 +11,10 @@ namespace apis.Controllers
     [ApiController]
     public class PersonController(IPersonRepository personRepo) : ControllerBase
     {
-        private readonly IPersonRepository _personRepo = personRepo;
-
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] PersonQueryObject query)
         {
-            return Ok(await _personRepo.GetAllAsync());
+            return Ok(await personRepo.GetAllAsync(query));
         }
 
         [HttpGet("{id:int}")]
@@ -25,7 +23,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Person? person = await _personRepo.GetByIdAsync(id);
+            Person? person = await personRepo.GetByIdAsync(id);
 
             if (person == null)
                 return NotFound();
@@ -41,7 +39,7 @@ namespace apis.Controllers
 
             Person personModel = personDto.ToPersonFromCreateDto();
 
-            await _personRepo.CreateAsync(personModel);
+            await personRepo.CreateAsync(personModel);
 
             return CreatedAtAction(nameof(GetById), new { id = personModel.Id }, personModel.ToPersonDto());
         }
@@ -52,7 +50,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState); 
             
-            Person? personModel = await _personRepo.UpdateAsync(id, updateDto);
+            Person? personModel = await personRepo.UpdateAsync(id, updateDto);
 
             if (personModel == null)
                 return NotFound();
@@ -63,7 +61,7 @@ namespace apis.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Person? personModel = await _personRepo.DeleteAsync(id);
+            Person? personModel = await personRepo.DeleteAsync(id);
 
             if (personModel == null)
                 return NotFound();

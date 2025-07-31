@@ -10,13 +10,10 @@ namespace apis.Controllers
     [ApiController]
     public class WorkshopController(IWorkshopRepository workshopRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
-        private readonly IWorkshopRepository _workshopRepo = workshopRepo;
-        private readonly ISubjectRepository _subjectRepo = subjectRepo;
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _workshopRepo.GetAllAsync());
+            return Ok(await workshopRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
@@ -25,7 +22,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Workshop? workshopModel = await _workshopRepo.GetByIdAsync(id);
+            Workshop? workshopModel = await workshopRepo.GetByIdAsync(id);
 
             if (workshopModel == null)
                 return NotFound();
@@ -39,10 +36,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await _subjectRepo.SubjectExists(workshopDto.SubjectId))
+            if (!await subjectRepo.SubjectExists(workshopDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Workshop workshopModel = await _workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
+            Workshop workshopModel = await workshopRepo.CreateAsync(workshopDto.ToWorkshopFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = workshopModel.Id }, workshopModel.ToWorkshopDto());
         }
@@ -53,10 +50,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await _subjectRepo.SubjectExists(workshopDto.SubjectId))
+            if (!await subjectRepo.SubjectExists(workshopDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Workshop? workshopModel = await _workshopRepo.UpdateAsync(id, workshopDto);
+            Workshop? workshopModel = await workshopRepo.UpdateAsync(id, workshopDto);
 
             if (workshopModel == null)
                 return NotFound();
@@ -67,7 +64,7 @@ namespace apis.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Workshop? workshopModel = await _workshopRepo.DeleteAsync(id);
+            Workshop? workshopModel = await workshopRepo.DeleteAsync(id);
 
             if (workshopModel == null)
                 return NotFound();

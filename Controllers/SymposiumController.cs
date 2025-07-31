@@ -10,13 +10,10 @@ namespace apis.Controllers
     [ApiController]
     public class SymposiumController(ISymposiumRepository symposiumRepo, IAddressRepository addressRepo) : ControllerBase
     {
-        private readonly ISymposiumRepository _symposiumRepo = symposiumRepo;
-        private readonly IAddressRepository _addressRepo = addressRepo;
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _symposiumRepo.GetAllAsync());
+            return Ok(await symposiumRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
@@ -25,7 +22,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var symposiumModel = await _symposiumRepo.GetByIdAsync(id);
+            var symposiumModel = await symposiumRepo.GetByIdAsync(id);
 
             if (symposiumModel == null)
                 return NotFound();
@@ -39,10 +36,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await _addressRepo.AddressExists(symposiumDto.LocationAddressId))
+            if (!await addressRepo.AddressExists(symposiumDto.LocationAddressId))
                 return BadRequest("Address does not exist.");
 
-            var symposiumModel = await _symposiumRepo.CreateAsync(symposiumDto.ToSymposiumFromCreateDto());
+            var symposiumModel = await symposiumRepo.CreateAsync(symposiumDto.ToSymposiumFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = symposiumModel.Id }, symposiumModel.ToSymposiumDto());
         }
@@ -53,10 +50,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (await _addressRepo.AddressExists(symposiumDto.LocationAddressId))
+            if (await addressRepo.AddressExists(symposiumDto.LocationAddressId))
                 return BadRequest("Address does not exist.");
 
-            Symposium? symposiumModel = await _symposiumRepo.UpdateAsync(id, symposiumDto);
+            Symposium? symposiumModel = await symposiumRepo.UpdateAsync(id, symposiumDto);
 
             if (symposiumModel == null)
                 return NotFound();
@@ -67,7 +64,7 @@ namespace apis.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var symposiumModel = await _symposiumRepo.DeleteAsync(id);
+            var symposiumModel = await symposiumRepo.DeleteAsync(id);
 
             if (symposiumModel == null)
                 return NotFound();

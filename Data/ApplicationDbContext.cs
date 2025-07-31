@@ -1,11 +1,10 @@
 ﻿using apis.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
-using System.Runtime.Intrinsics.X86;
 
 namespace apis.Data
 {
-    public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
     {
         public DbSet<Person> Person { get; set; }
         public DbSet<Address> Address { get; set; }

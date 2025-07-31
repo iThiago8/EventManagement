@@ -1,12 +1,8 @@
-﻿using apis.Data;
-using apis.Dtos.Article;
-using apis.Dtos.Person;
-using apis.Dtos.Workshop;
+﻿using apis.Dtos.Article;
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace apis.Controllers
 {
@@ -14,13 +10,10 @@ namespace apis.Controllers
     [ApiController]    
     public class ArticleController(IArticleRepository articleRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
-        private readonly IArticleRepository _articleRepo = articleRepo;
-        private readonly ISubjectRepository _subjectRepo = subjectRepo;
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _articleRepo.GetAllAsync());
+            return Ok(await articleRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
@@ -29,7 +22,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(await _articleRepo.GetByIdAsync(id));
+            return Ok(await articleRepo.GetByIdAsync(id));
         }
 
         [HttpPost]
@@ -38,10 +31,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await _subjectRepo.SubjectExists(articleDto.SubjectId))
+            if (!await subjectRepo.SubjectExists(articleDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Article articleModel = await _articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
+            Article articleModel = await articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel.ToArticleDto());
         }
@@ -52,10 +45,10 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!await _subjectRepo.SubjectExists(articleDto.SubjectId))
+            if (!await subjectRepo.SubjectExists(articleDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Article? articleModel = await _articleRepo.UpdateAsync(id, articleDto);
+            Article? articleModel = await articleRepo.UpdateAsync(id, articleDto);
 
             if (articleModel == null)
                 return NotFound();
@@ -66,7 +59,7 @@ namespace apis.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Article? articleModel = await _articleRepo.DeleteAsync(id);
+            Article? articleModel = await articleRepo.DeleteAsync(id);
 
             if (articleModel == null)
                 return NotFound();

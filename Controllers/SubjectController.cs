@@ -10,12 +10,10 @@ namespace apis.Controllers
     [ApiController]
     public class SubjectController(ISubjectRepository subjectRepo) : ControllerBase
     {
-        private readonly ISubjectRepository _subjectRepo = subjectRepo;
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _subjectRepo.GetAllAsync());
+            return Ok(await subjectRepo.GetAllAsync());
         }
         
         [HttpGet("{id:int}")]
@@ -24,7 +22,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject? subject = await _subjectRepo.GetByIdAsync(id);
+            Subject? subject = await subjectRepo.GetByIdAsync(id);
 
             if (subject == null)
                 return NotFound();
@@ -39,7 +37,7 @@ namespace apis.Controllers
                 return BadRequest(ModelState);
 
             Subject subjectModel = subjectDto.ToSubjectFromCreateDto();
-            await _subjectRepo.CreateAsync(subjectModel);
+            await subjectRepo.CreateAsync(subjectModel);
 
             return CreatedAtAction(nameof(GetById), new { id = subjectModel.Id }, subjectModel.ToSubjectDto());
         }
@@ -51,7 +49,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject? subjectModel = await _subjectRepo.UpdateAsync(id, updateDto);
+            Subject? subjectModel = await subjectRepo.UpdateAsync(id, updateDto);
 
             if (subjectModel == null)
                 return NotFound();
@@ -63,7 +61,7 @@ namespace apis.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Subject? subjectModel = await _subjectRepo.DeleteAsync(id);
+            Subject? subjectModel = await subjectRepo.DeleteAsync(id);
 
             if (subjectModel == null)
                 return NotFound();

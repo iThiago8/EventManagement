@@ -6,17 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
 {
-    [Route("api/scientificcommittee")]
+    [Route("api/scientific-committee")]
     [ApiController]
     public class ScientificCommitteeController(IScientificCommitteeRepository scientificCommitteeRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
-        private readonly IScientificCommitteeRepository _scientificCommitteeRepo = scientificCommitteeRepo;
-        private readonly ISubjectRepository _subjectRepo = subjectRepo;
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _scientificCommitteeRepo.GetAllAsync());
+            return Ok(await scientificCommitteeRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
@@ -25,7 +22,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            ScientificCommittee? scientificCommitteeModel = await _scientificCommitteeRepo.GetByIdAsync(id);
+            ScientificCommittee? scientificCommitteeModel = await scientificCommitteeRepo.GetByIdAsync(id);
 
             if (scientificCommitteeModel == null)
                 return NotFound();
@@ -39,12 +36,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            bool subjectExists = await _subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
+            bool subjectExists = await subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
 
             if (!subjectExists)
                 return NotFound();
 
-            ScientificCommittee scientificCommitteeModel = await _scientificCommitteeRepo.CreateAsync(scientificCommitteeDto.ToScientificCommitteFromCreateDto());
+            ScientificCommittee scientificCommitteeModel = await scientificCommitteeRepo.CreateAsync(scientificCommitteeDto.ToScientificCommitteFromCreateDto());
 
             return CreatedAtAction(nameof(GetById), new { id = scientificCommitteeModel.Id }, scientificCommitteeModel.ToScientificCommitteeDto());
         }
@@ -55,12 +52,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            bool subjectExists = await _subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
+            bool subjectExists = await subjectRepo.SubjectExists(scientificCommitteeDto.SubjectId);
 
             if (!subjectExists)
                 return NotFound();
 
-            ScientificCommittee? scientificCommitteeModel = await _scientificCommitteeRepo.UpdateAsync(id, scientificCommitteeDto);
+            ScientificCommittee? scientificCommitteeModel = await scientificCommitteeRepo.UpdateAsync(id, scientificCommitteeDto);
 
             if (scientificCommitteeModel == null)
                 return NotFound();
@@ -71,7 +68,7 @@ namespace apis.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            ScientificCommittee? scientificCommitteeModel = await _scientificCommitteeRepo.DeleteAsync(id);
+            ScientificCommittee? scientificCommitteeModel = await scientificCommitteeRepo.DeleteAsync(id);
 
             if (scientificCommitteeModel == null)
                 return NotFound();
