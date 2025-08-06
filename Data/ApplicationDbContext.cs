@@ -1,13 +1,12 @@
 ﻿using apis.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace apis.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options);
-
         public DbSet<Person> Person { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Article> Article { get; set; }
@@ -18,6 +17,25 @@ namespace apis.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "Admin"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                },
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
+            modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
             modelBuilder.Entity<ArticleReview>()
                 .HasKey(asc => new { asc.ArticleId, asc.ScientificCommitteeId });
 
