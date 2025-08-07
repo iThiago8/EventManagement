@@ -18,7 +18,7 @@ namespace apis.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                AppUser appUser = new AppUser
+                AppUser appUser = new ()
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.Email
