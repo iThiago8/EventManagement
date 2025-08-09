@@ -10,6 +10,15 @@ namespace apis.Controllers
     [ApiController]
     public class AccountController(UserManager<AppUser> userManager, ITokenService tokenService) : ControllerBase
     {
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetByEmail()
+        {
+            userManager.FindByEmailAsync()
+
+            return Ok("teste");
+        }
+
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
