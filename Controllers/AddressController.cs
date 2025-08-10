@@ -2,6 +2,7 @@
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -11,6 +12,7 @@ namespace apis.Controllers
     public class AddressController(IAddressRepository addressRepo) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await addressRepo.GetAllAsync());

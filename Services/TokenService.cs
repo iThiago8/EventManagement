@@ -9,14 +9,14 @@ namespace apis.Services
 {
     public class TokenService(IConfiguration config) : ITokenService
     {
-        private readonly SymmetricSecurityKey _key = new (Encoding.UTF8.GetBytes(config["JWT:SigningKey"]));
+        private readonly SymmetricSecurityKey _key = new (Encoding.UTF8.GetBytes(config["JWT:SigningKey"]!));
 
         public string CreateToken(AppUser user)
         {
             List<Claim> claims =
             [
-                new (JwtRegisteredClaimNames.Email, user.Email),
-                new (JwtRegisteredClaimNames.GivenName, user.UserName)
+                new (JwtRegisteredClaimNames.Email, user.Email!),
+                new (JwtRegisteredClaimNames.GivenName, user.UserName!)
             ];
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
