@@ -2,6 +2,7 @@
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -11,12 +12,14 @@ namespace apis.Controllers
     public class WorkshopController(IWorkshopRepository workshopRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await workshopRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -31,6 +34,7 @@ namespace apis.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateWorkshopRequestDto workshopDto)
         {
             if (!ModelState.IsValid)
@@ -45,6 +49,7 @@ namespace apis.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateWorkshopRequestDto workshopDto)
         {
             if (!ModelState.IsValid)
@@ -61,6 +66,7 @@ namespace apis.Controllers
                 return Ok(workshopModel);
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

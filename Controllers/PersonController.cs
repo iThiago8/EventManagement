@@ -3,6 +3,7 @@ using apis.Helpers.QueryObjects;
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -12,12 +13,14 @@ namespace apis.Controllers
     public class PersonController(IPersonRepository personRepo) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] PersonQueryObject query)
         {
             return Ok(await personRepo.GetAllAsync(query));
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -32,6 +35,7 @@ namespace apis.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreatePersonRequestDto personDto)
         {
             if (!ModelState.IsValid)
@@ -45,6 +49,7 @@ namespace apis.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePersonRequestDto updateDto)
         {
             if (!ModelState.IsValid)
@@ -59,6 +64,7 @@ namespace apis.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Person? personModel = await personRepo.DeleteAsync(id);

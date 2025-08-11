@@ -14,6 +14,7 @@ namespace apis.Data
         public DbSet<Subject> Subject { get; set; }
         public DbSet<Symposium> Symposium { get; set; }
         public DbSet<Workshop> Workshop { get; set; }
+        public DbSet<WorkshopSymposium> WorkshopSymposium { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,6 +2,7 @@
 using apis.Interfaces;
 using apis.Mappers;
 using apis.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
@@ -11,12 +12,14 @@ namespace apis.Controllers
     public class ArticleController(IArticleRepository articleRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await articleRepo.GetAllAsync());
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -26,6 +29,7 @@ namespace apis.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateArticleRequestDto articleDto)
         {
             if (!ModelState.IsValid)
@@ -40,6 +44,7 @@ namespace apis.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateArticleRequestDto articleDto)
         {
             if (!ModelState.IsValid)
@@ -57,6 +62,7 @@ namespace apis.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Article? articleModel = await articleRepo.DeleteAsync(id);
