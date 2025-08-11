@@ -4,16 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace apis.Controllers
 {
-    public class ArticleReviewController(IArticleRepository articleRepo, IScientificCommitteeRepository scientificCommitteeRepo) : ControllerBase
+    [Route("api/articlereview")]
+    [ApiController]
+    public class ArticleReviewController(IArticleReviewRepository articleReviewRepo) : ControllerBase
     {
-        [Route("api/articlereview")]
-        [ApiController]
-
-        [HttpGet]
+        [HttpGet("{articleId}/reviews")]
         [Authorize]
-        public async Task<IActionResult> GetArticleReviews()
+        public async Task<IActionResult> GetArticleReviews([FromRoute] int articleId)
         {
-            var article = 
+            var articleReviews = await articleReviewRepo.GetArticleReviewsAsync(articleId);
+
+            if (articleReviews == null)
+                return BadRequest("Article not found");
+
+            return Ok(articleReviews);
         }
     }
 }
