@@ -1,6 +1,6 @@
 ﻿namespace apis.Dtos.ArticleReview
 {
-    public class ReviewDto
+    public class ArticleReviewDto
     {
         public int ArticleId { get; set; }
         public Models.Article Article { get; set; } = new();

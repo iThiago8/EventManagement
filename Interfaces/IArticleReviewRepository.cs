@@ -4,6 +4,6 @@ namespace apis.Interfaces
 {
     public interface IArticleReviewRepository
     {
-        Task<List<ReviewDto>?> GetArticleReviewsAsync(int articleId); 
+        Task<List<ArticleReviewDto>?> GetArticleReviewsAsync(int articleId); 
     }
 }

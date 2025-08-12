@@ -85,8 +85,9 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
-builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IScientificCommitteeRepository, ScientificCommitteeRepository>();
+builder.Services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISymposiumRepository, SymposiumRepository>();
 builder.Services.AddScoped<IWorkshopRepository, WorkshopRepository>();
