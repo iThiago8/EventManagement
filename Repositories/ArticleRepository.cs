@@ -1,6 +1,7 @@
 ﻿using apis.Data;
 using apis.Dtos.Article;
 using apis.Interfaces;
+using apis.Mappers;
 using apis.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace apis.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<Article> CreateAsync(Article articleModel)
+        public async Task<ArticleDto> CreateAsync(Article articleModel)
         {
             Subject? subjectModel = await _context.Subject.FindAsync(articleModel.SubjectId);
 
@@ -20,20 +21,24 @@ namespace apis.Repositories
             await _context.Article.AddAsync(articleModel);
             await _context.SaveChangesAsync();
 
-            return articleModel;
+            return articleModel.ToArticleDto();
         }
 
-        public async Task<List<Article>> GetAllAsync()
+        public async Task<List<ArticleDto>> GetAllAsync()
         {
-            return await _context.Article.Include(a => a.Subject).ToListAsync();
+            return await _context.Article
+                .Include(a => a.Subject)
+                .ToListAsync();
         }
 
-        public async Task<Article?> GetByIdAsync(int id)
+        public async Task<ArticleDto?> GetByIdAsync(int id)
         {
-            return await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
+            var article = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
+
+            return article.ToArticleDto();
         }
 
-        public async Task<Article?> UpdateAsync(int id, UpdateArticleRequestDto articleDto)
+        public async Task<ArticleDto?> UpdateAsync(int id, UpdateArticleRequestDto articleDto)
         {
             Article? existingArticle = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
 
@@ -48,10 +53,10 @@ namespace apis.Repositories
             existingArticle.SubjectId = articleDto.SubjectId;
             existingArticle.Subject = newSubject!;
 
-            return existingArticle;
+            return existingArticle.ToArticleDto();
         }
 
-        public async Task<Article?> DeleteAsync(int id)
+        public async Task<ArticleDto?> DeleteAsync(int id)
         {
             Article? articleModel = await _context.Article.FindAsync(id);
 
@@ -61,7 +66,7 @@ namespace apis.Repositories
             _context.Remove(articleModel);
             await _context.SaveChangesAsync();
 
-            return articleModel;
+            return articleModel.ToArticleDto();
         }
     }
 }
