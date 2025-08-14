@@ -44,7 +44,10 @@ namespace apis.Repositories
         {
             var article = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
 
-            return article.ToArticleDto();
+            if (article == null)
+                return null;
+            else
+                return article.ToArticleDto();
         }
 
         public async Task<ArticleDto?> UpdateAsync(int id, UpdateArticleRequestDto articleDto)
