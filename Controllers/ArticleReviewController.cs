@@ -15,7 +15,7 @@ namespace apis.Controllers
             var articleReviews = await articleReviewRepo.GetArticleReviewsAsync(articleId);
 
             if (articleReviews == null)
-                return BadRequest("Article not found");
+                return NotFound();
 
             return Ok(articleReviews);
         }
