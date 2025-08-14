@@ -38,9 +38,9 @@ namespace apis.Controllers
             if (!await subjectRepo.SubjectExists(articleDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Article articleModel = await articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
+            var articleModel = await articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
 
-            return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel.ToArticleDto());
+            return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel);
         }
 
         [HttpPut("{id:int}")]
@@ -53,7 +53,7 @@ namespace apis.Controllers
             if (!await subjectRepo.SubjectExists(articleDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Article? articleModel = await articleRepo.UpdateAsync(id, articleDto);
+            var articleModel = await articleRepo.UpdateAsync(id, articleDto);
 
             if (articleModel == null)
                 return NotFound();
@@ -65,7 +65,7 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Article? articleModel = await articleRepo.DeleteAsync(id);
+            var articleModel = await articleRepo.DeleteAsync(id);
 
             if (articleModel == null)
                 return NotFound();

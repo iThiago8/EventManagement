@@ -28,6 +28,15 @@ namespace apis.Repositories
         {
             return await _context.Article
                 .Include(a => a.Subject)
+                .Select(a => new ArticleDto
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Abstract = a.Abstract,
+                    PublicationDate = a.PublicationDate,
+                    Subject = a.Subject,
+                    SubjectId = a.SubjectId
+                })
                 .ToListAsync();
         }
 
