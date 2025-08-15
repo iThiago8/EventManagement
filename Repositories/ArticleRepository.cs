@@ -12,7 +12,7 @@ namespace apis.Repositories
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<ArticleDto> CreateAsync(Article articleModel)
+        public async Task<Article> CreateAsync(Article articleModel)
         {
             Subject? subjectModel = await _context.Subject.FindAsync(articleModel.SubjectId);
 
@@ -21,14 +21,14 @@ namespace apis.Repositories
             await _context.Article.AddAsync(articleModel);
             await _context.SaveChangesAsync();
 
-            return articleModel.ToArticleDto();
+            return articleModel;
         }
 
-        public async Task<List<ArticleDto>> GetAllAsync()
+        public async Task<List<Article>> GetAllAsync()
         {
             return await _context.Article
                 .Include(a => a.Subject)
-                .Select(a => new ArticleDto
+                .Select(a => new Article
                 {
                     Id = a.Id,
                     Name = a.Name,
@@ -40,37 +40,37 @@ namespace apis.Repositories
                 .ToListAsync();
         }
 
-        public async Task<ArticleDto?> GetByIdAsync(int id)
+        public async Task<Article?> GetByIdAsync(int id)
         {
             var article = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
 
             if (article == null)
                 return null;
             else
-                return article.ToArticleDto();
+                return article;
         }
 
-        public async Task<ArticleDto?> UpdateAsync(int id, UpdateArticleRequestDto articleDto)
+        public async Task<Article?> UpdateAsync(int id, Article articleModel)
         {
-            Article? existingArticle = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
+            var existingArticle = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingArticle == null)
                 return null;
 
-            Subject? newSubject = await _context.Subject.FindAsync(articleDto.SubjectId);
+            Subject? newSubject = await _context.Subject.FindAsync(articleModel.SubjectId);
 
-            existingArticle.Name = articleDto.Name;
-            existingArticle.PublicationDate = articleDto.PublicationDate;
-            existingArticle.Abstract = articleDto.Abstract;
-            existingArticle.SubjectId = articleDto.SubjectId;
+            existingArticle.Name = articleModel.Name;
+            existingArticle.PublicationDate = articleModel.PublicationDate;
+            existingArticle.Abstract = articleModel.Abstract;
+            existingArticle.SubjectId = articleModel.SubjectId;
             existingArticle.Subject = newSubject!;
 
-            return existingArticle.ToArticleDto();
+            return existingArticle;
         }
 
-        public async Task<ArticleDto?> DeleteAsync(int id)
+        public async Task<Article?> DeleteAsync(int id)
         {
-            Article? articleModel = await _context.Article.FindAsync(id);
+            var articleModel = await _context.Article.FindAsync(id);
 
             if (articleModel == null)
                 return null;
@@ -78,7 +78,7 @@ namespace apis.Repositories
             _context.Remove(articleModel);
             await _context.SaveChangesAsync();
 
-            return articleModel.ToArticleDto();
+            return articleModel;
         }
     }
 }

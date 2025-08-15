@@ -21,7 +21,7 @@ namespace apis.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            List<IdentityRole> roles = new List<IdentityRole>
+            var roles = new List<IdentityRole>
             {
                 new IdentityRole
                 {

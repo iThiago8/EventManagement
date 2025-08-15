@@ -1,7 +1,6 @@
 ﻿using apis.Dtos.Article;
 using apis.Interfaces;
 using apis.Mappers;
-using apis.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,7 +52,7 @@ namespace apis.Controllers
             if (!await subjectRepo.SubjectExists(articleDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            var articleModel = await articleRepo.UpdateAsync(id, articleDto);
+            var articleModel = await articleRepo.UpdateAsync(id, articleDto.ToArticleFromUpdateDto());
 
             if (articleModel == null)
                 return NotFound();

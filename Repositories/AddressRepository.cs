@@ -46,21 +46,21 @@ namespace apis.Repositories
             return await _context.Address.FindAsync(id);
         }
 
-        public async Task<Address?> UpdateAsync(int id, UpdateAddressRequestDto addressDto)
+        public async Task<Address?> UpdateAsync(int id, Address addressModel)
         {
             Address? existingAddress = await GetByIdAsync(id);
 
             if (existingAddress == null)
                 return null;
 
-            existingAddress.Street = addressDto.Street;
-            existingAddress.Number = addressDto.Number;
-            existingAddress.Complement = addressDto.Complement;
-            existingAddress.Neighborhood = addressDto.Neighborhood;
-            existingAddress.City = addressDto.City;
-            existingAddress.State = addressDto.State;
-            existingAddress.Country = addressDto.Country;
-            existingAddress.PostalCode = addressDto.PostalCode;
+            existingAddress.Street = addressModel.Street;
+            existingAddress.Number = addressModel.Number;
+            existingAddress.Complement = addressModel.Complement;
+            existingAddress.Neighborhood = addressModel.Neighborhood;
+            existingAddress.City = addressModel.City;
+            existingAddress.State = addressModel.State;
+            existingAddress.Country = addressModel.Country;
+            existingAddress.PostalCode = addressModel.PostalCode;
 
             await _context.SaveChangesAsync();
 
