@@ -46,17 +46,17 @@ namespace apis.Repositories
             return await _context.ScientificCommittee.Include(sc => sc.Subject).FirstOrDefaultAsync(sc => sc.Id == id);
         }
 
-        public async Task<ScientificCommittee?> UpdateAsync(int id, UpdateScientificCommitteeResquestDto scientificCommitteeDto)
+        public async Task<ScientificCommittee?> UpdateAsync(int id, ScientificCommittee scientificCommitteeModel)
         {
             ScientificCommittee? existingScientificCommittee = await _context.ScientificCommittee.FindAsync(id);
 
             if (existingScientificCommittee == null)
                 return null;
 
-            Subject? newSubject = await _context.Subject.FindAsync(scientificCommitteeDto.SubjectId);
+            Subject? newSubject = await _context.Subject.FindAsync(scientificCommitteeModel.SubjectId);
 
-            existingScientificCommittee.Name = scientificCommitteeDto.Name;
-            existingScientificCommittee.SubjectId = scientificCommitteeDto.SubjectId;
+            existingScientificCommittee.Name = scientificCommitteeModel.Name;
+            existingScientificCommittee.SubjectId = scientificCommitteeModel.SubjectId;
             existingScientificCommittee.Subject = newSubject!;
 
             await _context.SaveChangesAsync();

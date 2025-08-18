@@ -37,7 +37,7 @@ namespace apis.Mappers
                 PostalCode = addressDto.PostalCode
             };
         }
-        
+
         public static Address ToAddressFromUpdateDto(this UpdateAddressRequestDto addressDto)
         {
             return new Address

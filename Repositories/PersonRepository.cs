@@ -69,18 +69,18 @@ namespace apis.Repositories
             return await context.Person.FindAsync(id);
         }
 
-        public async Task<Person?> UpdateAsync(int id, UpdatePersonRequestDto personDto)
+        public async Task<Person?> UpdateAsync(int id, Person personModel)
         {
             Person? existingPerson = await context.Person.FirstOrDefaultAsync(p => p.Id == id);
 
             if (existingPerson == null)
                 return null;
 
-            existingPerson.Cpf = personDto.Cpf;
-            existingPerson.Name = personDto.Name;
-            existingPerson.Email = personDto.Email;
-            existingPerson.PhoneNumber = personDto.PhoneNumber;
-            existingPerson.BirthDate = personDto.BirthDate;
+            existingPerson.Cpf = personModel.Cpf;
+            existingPerson.Name = personModel.Name;
+            existingPerson.Email = personModel.Email;
+            existingPerson.PhoneNumber = personModel.PhoneNumber;
+            existingPerson.BirthDate = personModel.BirthDate;
 
             await context.SaveChangesAsync();
 
