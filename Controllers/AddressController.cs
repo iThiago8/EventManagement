@@ -54,7 +54,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Address? addressModel = await addressRepo.UpdateAsync(id, addressDto);
+            Address? addressModel = await addressRepo.UpdateAsync(id, addressDto.ToAddressFromUpdateDto());
 
             if (addressModel == null)
                 return NotFound();

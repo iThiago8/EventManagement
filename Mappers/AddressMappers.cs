@@ -35,5 +35,21 @@ namespace apis.Mappers
                 PostalCode = addressDto.PostalCode
             };
         }
+
+        public static Address ToAddressFromUpdateDto(this UpdateAddressRequestDto addressDto)
+        {
+            return new Address
+            {
+                Street = addressDto.Street,
+                Number = addressDto.Number,
+                Complement = addressDto.Complement,
+                Neighborhood = addressDto.Neighborhood,
+                City = addressDto.City,
+                State = addressDto.State,
+                Country = addressDto.Country,
+                PostalCode = addressDto.PostalCode
+            };
+
+        }
     }
 }

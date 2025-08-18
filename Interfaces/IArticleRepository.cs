@@ -8,7 +8,7 @@ namespace apis.Interfaces
         Task<List<ArticleDto>> GetAllAsync();
         Task<ArticleDto?> GetByIdAsync(int id);
         Task<ArticleDto> CreateAsync(Article articleModel);
-        Task<ArticleDto?> UpdateAsync(int id, UpdateArticleRequestDto articleDto);
+        Task<ArticleDto?> UpdateAsync(int id, Article articleModel);
         Task<ArticleDto?> DeleteAsync(int id);
     }
 }

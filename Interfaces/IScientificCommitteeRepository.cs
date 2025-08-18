@@ -8,7 +8,7 @@ namespace apis.Interfaces
         Task<List<ScientificCommittee>> GetAllAsync();
         Task<ScientificCommittee?> GetByIdAsync(int id);
         Task<ScientificCommittee> CreateAsync(ScientificCommittee scientificCommitteeModel);
-        Task<ScientificCommittee?> UpdateAsync(int id, UpdateScientificCommitteeResquestDto scientificCommitteeDto);
+        Task<ScientificCommittee?> UpdateAsync(int id, ScientificCommittee scientificCommitteeModel);
         Task<ScientificCommittee?> DeleteAsync(int id);
     }
 }

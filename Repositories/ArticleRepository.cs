@@ -50,19 +50,19 @@ namespace apis.Repositories
                 return article.ToArticleDto();
         }
 
-        public async Task<ArticleDto?> UpdateAsync(int id, UpdateArticleRequestDto articleDto)
+        public async Task<ArticleDto?> UpdateAsync(int id, Article articleModel)
         {
             Article? existingArticle = await _context.Article.Include(a => a.Subject).FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingArticle == null)
                 return null;
 
-            Subject? newSubject = await _context.Subject.FindAsync(articleDto.SubjectId);
+            Subject? newSubject = await _context.Subject.FindAsync(articleModel.SubjectId);
 
-            existingArticle.Name = articleDto.Name;
-            existingArticle.PublicationDate = articleDto.PublicationDate;
-            existingArticle.Abstract = articleDto.Abstract;
-            existingArticle.SubjectId = articleDto.SubjectId;
+            existingArticle.Name = articleModel.Name;
+            existingArticle.PublicationDate = articleModel.PublicationDate;
+            existingArticle.Abstract = articleModel.Abstract;
+            existingArticle.SubjectId = articleModel.SubjectId;
             existingArticle.Subject = newSubject!;
 
             return existingArticle.ToArticleDto();

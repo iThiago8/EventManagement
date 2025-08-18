@@ -8,62 +8,53 @@ namespace apis.Repositories
 {
     public class SymposiumRepository(ApplicationDbContext context) : ISymposiumRepository
     {
-        private readonly ApplicationDbContext _context = context;
-
         public async Task<Symposium> CreateAsync(Symposium symposiumModel)
         {
-            Address? addressModel = await _context.Address.FindAsync(symposiumModel.LocationAddressId);
+            await context.Symposium.AddAsync(symposiumModel);
+            await context.SaveChangesAsync();
 
-            symposiumModel.LocationAddress = addressModel!;
-
-            await _context.Symposium.AddAsync(symposiumModel);
-            await _context.SaveChangesAsync();
-
-            return symposiumModel;
+            return (await GetByIdAsync(symposiumModel.Id))!;
         }
 
         public async Task<Symposium?> DeleteAsync(int id)
         {
-            Symposium? symposiumModel = await _context.Symposium.FindAsync(id);
+            Symposium? symposiumModel = await context.Symposium.FindAsync(id);
 
             if (symposiumModel == null)
                 return null;
 
-            _context.Remove(symposiumModel);
-            await _context.SaveChangesAsync();
+            context.Remove(symposiumModel);
+            await context.SaveChangesAsync();
 
             return symposiumModel;
         }
 
         public async Task<List<Symposium>> GetAllAsync()
         {
-            return await _context.Symposium.Include(s => s.LocationAddress).ToListAsync();
+            return await context.Symposium.Include(s => s.LocationAddress).ToListAsync();
         }
 
         public async Task<Symposium?> GetByIdAsync(int id)
         {
-            return await _context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
+            return await context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task<Symposium?> UpdateAsync(int id, UpdateSymposiumRequestDto updateDto)
+        public async Task<Symposium?> UpdateAsync(int id, Symposium symposiumModel)
         {
-            Symposium? existingSymposium = await _context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
+            Symposium? existingSymposium = await context.Symposium.Include(s => s.LocationAddress).FirstOrDefaultAsync(s => s.Id == id);
 
             if (existingSymposium == null)
                 return null;
 
-            Address? newAddress = await _context.Address.FindAsync(updateDto.LocationAddressId);
+            existingSymposium.Name = symposiumModel.Name;
+            existingSymposium.StartDate = symposiumModel.StartDate;
+            existingSymposium.EndDate = symposiumModel.EndDate;
+            existingSymposium.LocationAddressId = symposiumModel.LocationAddressId;
+            existingSymposium.Description = symposiumModel.Description;
 
-            existingSymposium.Name = updateDto.Name;
-            existingSymposium.StartDate = updateDto.StartDate;
-            existingSymposium.EndDate = updateDto.EndDate;
-            existingSymposium.LocationAddressId = updateDto.LocationAddressId;
-            existingSymposium.LocationAddress = newAddress!;
-            existingSymposium.Description = updateDto.Description;
+            await context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-
-            return existingSymposium;
+            return (await GetByIdAsync(symposiumModel.Id))!;
         }
     }
 }
