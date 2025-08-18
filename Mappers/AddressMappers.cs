@@ -1,5 +1,7 @@
 ﻿using apis.Dtos.Address;
 using apis.Models;
+using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace apis.Mappers
 {
@@ -49,7 +51,22 @@ namespace apis.Mappers
                 Country = addressDto.Country,
                 PostalCode = addressDto.PostalCode
             };
+        }
 
+        public static Address ToAddressFromDto(this AddressDto addressDto)
+        {
+            return new Address
+            {
+                Id = addressDto.Id,
+                Street = addressDto.Street,
+                Number = addressDto.Number,
+                Complement = addressDto.Complement,
+                Neighborhood = addressDto.Neighborhood,
+                City = addressDto.City,
+                State = addressDto.State,
+                Country = addressDto.Country,
+                PostalCode = addressDto.PostalCode
+            };
         }
     }
 }

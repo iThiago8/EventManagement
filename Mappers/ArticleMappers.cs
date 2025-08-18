@@ -29,5 +29,30 @@ namespace apis.Mappers
                 SubjectId = articleDto.SubjectId
             };
         }
+        
+        public static Article ToArticleFromUpdateDto(this UpdateArticleRequestDto articleDto)
+        {
+            return new Article
+            {
+
+                Name = articleDto.Name,
+                Abstract = articleDto.Abstract,
+                PublicationDate = articleDto.PublicationDate,
+                SubjectId = articleDto.SubjectId
+            };
+        }
+
+        public static Article ToArticleFromArticleDto(this ArticleDto articleDto)
+        {
+            return new Article
+            {
+                Id = articleDto.Id,
+                Name = articleDto.Name,
+                Abstract = articleDto.Abstract,
+                PublicationDate = articleDto.PublicationDate,
+                SubjectId = articleDto.SubjectId,
+                Subject = articleDto.Subject
+            };
+        }
     }
 }

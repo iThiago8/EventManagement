@@ -5,10 +5,10 @@ namespace apis.Interfaces
 {
     public interface IArticleRepository
     {
-        Task<List<ArticleDto>> GetAllAsync();
-        Task<ArticleDto?> GetByIdAsync(int id);
-        Task<ArticleDto> CreateAsync(Article articleModel);
-        Task<ArticleDto?> UpdateAsync(int id, Article articleModel);
-        Task<ArticleDto?> DeleteAsync(int id);
+        Task<List<Article>> GetAllAsync();
+        Task<Article?> GetByIdAsync(int id);
+        Task<Article> CreateAsync(Article articleModel);
+        Task<Article?> UpdateAsync(int id, Article articleModel);
+        Task<Article?> DeleteAsync(int id);
     }
 }

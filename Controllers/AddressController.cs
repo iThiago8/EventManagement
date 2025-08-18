@@ -15,7 +15,9 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await addressRepo.GetAllAsync());
+            var addressModels = await addressRepo.GetAllAsync();
+
+            return Ok(addressModels.Select(a => a.ToAddressDto()));
         }
 
         [HttpGet("{id:int}")]
@@ -25,12 +27,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Address? addressModel = await addressRepo.GetByIdAsync(id);
+            var addressModel = await addressRepo.GetByIdAsync(id);
 
             if (addressModel == null)
                 return NotFound();
             else
-                return Ok(addressModel);
+                return Ok(addressModel.ToAddressDto());
         }
 
         [HttpPost]
@@ -40,7 +42,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            Address addressModel = addressDto.ToAddressFromCreateDto();
+            var addressModel = addressDto.ToAddressFromCreateDto();
 
             await addressRepo.CreateAsync(addressModel);
 
@@ -54,19 +56,20 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Address? addressModel = await addressRepo.UpdateAsync(id, addressDto.ToAddressFromUpdateDto());
+            var existingAddress = await addressRepo.UpdateAsync(id, addressDto.ToAddressFromUpdateDto());
 
-            if (addressModel == null)
+
+            if (existingAddress == null)
                 return NotFound();
             else
-                return Ok(addressModel);
+                return Ok(existingAddress);
         }
 
         [HttpDelete("{id:int}")]
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Address? addressModel = await addressRepo.DeleteAsync(id);
+            var addressModel = await addressRepo.DeleteAsync(id);
 
             if (addressModel == null)
                 return NotFound();
