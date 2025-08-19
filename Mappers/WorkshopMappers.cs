@@ -26,5 +26,16 @@ namespace apis.Mappers
                 SubjectId = workshopDto.SubjectId
             };
         }
+
+        public static Workshop ToWorkshopFromUpdateDto(this UpdateWorkshopRequestDto workshopDto)
+        {
+            return new Workshop
+            {
+                Hours = workshopDto.Hours,
+                Name = workshopDto.Name,
+                SubjectId = workshopDto.SubjectId
+            };
+
+        }
     }
 }

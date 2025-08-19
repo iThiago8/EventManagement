@@ -30,5 +30,16 @@ namespace apis.Mappers
                 LocationAddressId = symposiumDto.LocationAddressId
             };
         }
+        public static Symposium ToSymposiumFromUpdateDto(this UpdateSymposiumRequestDto symposiumDto)
+        {
+            return new Symposium
+            {
+                Name = symposiumDto.Name,
+                Description = symposiumDto.Description,
+                StartDate = symposiumDto.StartDate,
+                EndDate = symposiumDto.EndDate,
+                LocationAddressId = symposiumDto.LocationAddressId
+            };
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace apis.Dtos.ScientificCommittee
 {
-    public class UpdateScientificCommitteeResquestDto
+    public class UpdateScientificCommitteeRequestDto
     {
         [Required(ErrorMessage = "Scientific Committee name is required.")]
         [StringLength(200, MinimumLength = 5, ErrorMessage = "Committee name must be between 5 and 200 characters.")]

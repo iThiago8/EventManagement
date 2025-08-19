@@ -58,7 +58,7 @@ namespace apis.Controllers
             if (!await subjectRepo.SubjectExists(workshopDto.SubjectId))
                 return BadRequest("Subject does not exist.");
 
-            Workshop? workshopModel = await workshopRepo.UpdateAsync(id, workshopDto);
+            var workshopModel = await workshopRepo.UpdateAsync(id, workshopDto.ToWorkshopFromUpdateDto());
 
             if (workshopModel == null)
                 return NotFound();

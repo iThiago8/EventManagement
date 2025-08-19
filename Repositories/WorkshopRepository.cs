@@ -45,7 +45,7 @@ namespace apis.Repositories
             return await _context.Workshop.Include(w => w.Subject).FirstOrDefaultAsync(w => w.Id == id);
         }
 
-        public async Task<Workshop?> UpdateAsync(int id, UpdateWorkshopRequestDto workshopDto)
+        public async Task<Workshop?> UpdateAsync(int id, Workshop workshopModel)
         {
             Workshop? existingWorkshop = await _context.Workshop.Include(w => w.Subject).FirstOrDefaultAsync(w => w.Id == id);
 
@@ -54,9 +54,9 @@ namespace apis.Repositories
 
             Subject? newSubject = await _context.Subject.FindAsync(existingWorkshop.SubjectId);
 
-            existingWorkshop.Name = workshopDto.Name;
-            existingWorkshop.Hours = workshopDto.Hours;
-            existingWorkshop.SubjectId = workshopDto.SubjectId;
+            existingWorkshop.Name = workshopModel.Name;
+            existingWorkshop.Hours = workshopModel.Hours;
+            existingWorkshop.SubjectId = workshopModel.SubjectId;
             existingWorkshop.Subject = newSubject!;
 
             await _context.SaveChangesAsync();

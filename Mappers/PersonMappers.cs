@@ -28,5 +28,16 @@ namespace apis.Mappers
                 BirthDate = personDto.BirthDate
             };
         }
+        public static Person ToPersonFromUpdateDto(this UpdatePersonRequestDto personDto)
+        {
+            return new Person
+            {
+                Cpf = personDto.Cpf,
+                Name = personDto.Name,
+                Email = personDto.Email,
+                PhoneNumber = personDto.PhoneNumber,
+                BirthDate = personDto.BirthDate
+            };
+        }
     }
 }

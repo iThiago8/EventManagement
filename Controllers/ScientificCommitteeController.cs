@@ -52,7 +52,7 @@ namespace apis.Controllers
 
         [HttpPut("{id:int}")]
         [Authorize]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateScientificCommitteeResquestDto scientificCommitteeDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateScientificCommitteeRequestDto scientificCommitteeDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -62,7 +62,7 @@ namespace apis.Controllers
             if (!subjectExists)
                 return NotFound();
 
-            ScientificCommittee? scientificCommitteeModel = await scientificCommitteeRepo.UpdateAsync(id, scientificCommitteeDto);
+            ScientificCommittee? scientificCommitteeModel = await scientificCommitteeRepo.UpdateAsync(id, scientificCommitteeDto.ToScientificCommitteFromUpdateDto());
 
             if (scientificCommitteeModel == null)
                 return NotFound();

@@ -41,7 +41,7 @@ namespace apis.Repositories
             return await _context.Subject.FindAsync(id);
         }
 
-        public async Task<Subject?> UpdateAsync(int id, Subject subjectModelg)
+        public async Task<Subject?> UpdateAsync(int id, Subject subjectModel)
         {
             Subject? existingSubject = await _context.Subject.FirstOrDefaultAsync(s => s.Id == id);
 

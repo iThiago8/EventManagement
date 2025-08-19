@@ -21,5 +21,12 @@ namespace apis.Mappers
                 Name = subjectDto.Name
             };
         }
+        public static Subject ToSubjectFromUpdateDto(this UpdateSubjectRequestDto subjectDto)
+        {
+            return new Subject
+            {
+                Name = subjectDto.Name
+            };
+        }
     }
 }

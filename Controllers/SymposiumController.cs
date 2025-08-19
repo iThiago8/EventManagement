@@ -58,7 +58,7 @@ namespace apis.Controllers
             if (await addressRepo.AddressExists(symposiumDto.LocationAddressId))
                 return BadRequest("Address does not exist.");
 
-            Symposium? symposiumModel = await symposiumRepo.UpdateAsync(id, symposiumDto);
+            var symposiumModel = await symposiumRepo.UpdateAsync(id, symposiumDto.ToSymposiumFromUpdateDto());
 
             if (symposiumModel == null)
                 return NotFound();

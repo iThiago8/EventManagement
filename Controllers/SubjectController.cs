@@ -54,7 +54,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject? subjectModel = await subjectRepo.UpdateAsync(id, updateDto);
+            Subject? subjectModel = await subjectRepo.UpdateAsync(id, updateDto.ToSubjectFromUpdateDto());
 
             if (subjectModel == null)
                 return NotFound();

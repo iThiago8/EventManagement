@@ -55,7 +55,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState); 
             
-            Person? personModel = await personRepo.UpdateAsync(id, updateDto);
+            Person? personModel = await personRepo.UpdateAsync(id, updateDto.ToPersonFromUpdateDto());
 
             if (personModel == null)
                 return NotFound();
