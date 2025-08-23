@@ -14,7 +14,9 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await articleRepo.GetAllAsync());
+            var articles = await articleRepo.GetAllAsync();
+
+            return Ok(articles.Select(a => a.ToArticleDto()));
         }
 
         [HttpGet("{id:int}")]
@@ -24,7 +26,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(await articleRepo.GetByIdAsync(id));
+            var article = await articleRepo.GetByIdAsync(id);
+
+            if (article == null)
+                return NotFound();
+            else
+                return Ok(article.ToArticleDto());
         }
 
         [HttpPost]
@@ -39,7 +46,7 @@ namespace apis.Controllers
 
             var articleModel = await articleRepo.CreateAsync(articleDto.ToArticleFromCreateDto());
 
-            return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel);
+            return CreatedAtAction(nameof(GetById), new { id = articleModel.Id }, articleModel.ToArticleDto());
         }
 
         [HttpPut("{id:int}")]
@@ -57,7 +64,7 @@ namespace apis.Controllers
             if (articleModel == null)
                 return NotFound();
             else
-                return Ok(articleModel);
+                return Ok(articleModel.ToArticleDto());
         }
 
         [HttpDelete("{id:int}")]
