@@ -15,7 +15,9 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await symposiumRepo.GetAllAsync());
+            var symposiums = await symposiumRepo.GetAllAsync();
+
+            return Ok(symposiums.Select(s => s.ToSymposiumDto()));
         }
 
         [HttpGet("{id:int}")]
@@ -30,7 +32,7 @@ namespace apis.Controllers
             if (symposiumModel == null)
                 return NotFound();
             else
-                return Ok(symposiumModel);
+                return Ok(symposiumModel.ToSymposiumDto());
         }
 
         [HttpPost]
@@ -63,7 +65,7 @@ namespace apis.Controllers
             if (symposiumModel == null)
                 return NotFound();
             else
-                return Ok(symposiumModel);
+                return Ok(symposiumModel.ToSymposiumDto());
         }
 
         [HttpDelete("{id:int}")]

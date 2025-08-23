@@ -16,7 +16,13 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] PersonQueryObject query)
         {
-            return Ok(await personRepo.GetAllAsync(query));
+            var people = await personRepo.GetAllAsync(query);
+
+            return Ok(
+                people.Select(
+                    p => p.ToPersonDto()
+                )
+            );
         }
 
         [HttpGet("{id:int}")]
@@ -31,7 +37,7 @@ namespace apis.Controllers
             if (person == null)
                 return NotFound();
             else
-                return Ok(person);
+                return Ok(person.ToPersonDto());
         }
 
         [HttpPost]

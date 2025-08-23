@@ -15,7 +15,9 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await subjectRepo.GetAllAsync());
+            var subjects = await subjectRepo.GetAllAsync();
+
+            return Ok(subjects.Select(s => s.ToSubjectDto()));
         }
         
         [HttpGet("{id:int}")]
@@ -25,12 +27,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject? subject = await subjectRepo.GetByIdAsync(id);
+            var subject = await subjectRepo.GetByIdAsync(id);
 
             if (subject == null)
                 return NotFound();
 
-            return Ok(subject);
+            return Ok(subject.ToSubjectDto());
         }
 
         [HttpPost]
@@ -40,7 +42,7 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject subjectModel = subjectDto.ToSubjectFromCreateDto();
+            var subjectModel = subjectDto.ToSubjectFromCreateDto();
             await subjectRepo.CreateAsync(subjectModel);
 
             return CreatedAtAction(nameof(GetById), new { id = subjectModel.Id }, subjectModel.ToSubjectDto());
@@ -54,12 +56,12 @@ namespace apis.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Subject? subjectModel = await subjectRepo.UpdateAsync(id, updateDto.ToSubjectFromUpdateDto());
+            var subjectModel = await subjectRepo.UpdateAsync(id, updateDto.ToSubjectFromUpdateDto());
 
             if (subjectModel == null)
                 return NotFound();
 
-            return Ok(subjectModel);
+            return Ok(subjectModel.ToSubjectDto());
         }
 
         [HttpDelete]
@@ -67,7 +69,7 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            Subject? subjectModel = await subjectRepo.DeleteAsync(id);
+            var subjectModel = await subjectRepo.DeleteAsync(id);
 
             if (subjectModel == null)
                 return NotFound();

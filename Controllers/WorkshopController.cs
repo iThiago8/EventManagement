@@ -15,7 +15,9 @@ namespace apis.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await workshopRepo.GetAllAsync());
+            var workshops = await workshopRepo.GetAllAsync();
+
+            return Ok(workshops.Select(w => w.ToWorkshopDto()));
         }
 
         [HttpGet("{id:int}")]
@@ -30,7 +32,7 @@ namespace apis.Controllers
             if (workshopModel == null)
                 return NotFound();
             else
-                return Ok(workshopModel);
+                return Ok(workshopModel.ToWorkshopDto());
         }
 
         [HttpPost]
@@ -63,7 +65,7 @@ namespace apis.Controllers
             if (workshopModel == null)
                 return NotFound();
             else
-                return Ok(workshopModel);
+                return Ok(workshopModel.ToWorkshopDto());
         }
 
         [Authorize]

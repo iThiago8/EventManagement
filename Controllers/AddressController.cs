@@ -62,7 +62,7 @@ namespace apis.Controllers
             if (existingAddress == null)
                 return NotFound();
             else
-                return Ok(existingAddress);
+                return Ok(existingAddress.ToAddressDto());
         }
 
         [HttpDelete("{id:int}")]
