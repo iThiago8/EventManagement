@@ -10,5 +10,6 @@ namespace apis.Interfaces
         Task<ScientificCommittee> CreateAsync(ScientificCommittee scientificCommitteeModel);
         Task<ScientificCommittee?> UpdateAsync(int id, ScientificCommittee scientificCommitteeModel);
         Task<ScientificCommittee?> DeleteAsync(int id);
+        Task<bool> ScientificCommitteeExists(int id);
     }
 }

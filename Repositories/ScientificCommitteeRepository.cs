@@ -9,57 +9,60 @@ namespace apis.Repositories
 {
     public class ScientificCommitteeRepository(ApplicationDbContext context) : IScientificCommitteeRepository
     {
-        private readonly ApplicationDbContext _context = context;
+        public async Task<bool> ScientificCommitteeExists(int id)
+        {
+            return await context.ScientificCommittee.AnyAsync(sc => sc.Id == id);
+        }
 
         public async Task<ScientificCommittee> CreateAsync(ScientificCommittee scientificCommitteeModel)
         {
-            Subject? subjectModel = await _context.Subject.FindAsync(scientificCommitteeModel.SubjectId);
+            Subject? subjectModel = await context.Subject.FindAsync(scientificCommitteeModel.SubjectId);
 
             scientificCommitteeModel.Subject = subjectModel!;
 
-            await _context.ScientificCommittee.AddAsync(scientificCommitteeModel);
-            await _context.SaveChangesAsync();
+            await context.ScientificCommittee.AddAsync(scientificCommitteeModel);
+            await context.SaveChangesAsync();
 
             return scientificCommitteeModel;
         }
 
         public async Task<ScientificCommittee?> DeleteAsync(int id)
         {
-            ScientificCommittee? scientificCommitteeModel = await _context.ScientificCommittee.FindAsync(id);
+            ScientificCommittee? scientificCommitteeModel = await context.ScientificCommittee.FindAsync(id);
 
             if (scientificCommitteeModel == null)
                 return null;
 
-            _context.ScientificCommittee.Remove(scientificCommitteeModel);
-            await _context.SaveChangesAsync();
+            context.ScientificCommittee.Remove(scientificCommitteeModel);
+            await context.SaveChangesAsync();
 
             return scientificCommitteeModel;
         }
 
         public async Task<List<ScientificCommittee>> GetAllAsync()
         {
-            return await _context.ScientificCommittee.Include(sc => sc.Subject).ToListAsync();
+            return await context.ScientificCommittee.Include(sc => sc.Subject).ToListAsync();
         }
 
         public async Task<ScientificCommittee?> GetByIdAsync(int id)
         {
-            return await _context.ScientificCommittee.Include(sc => sc.Subject).FirstOrDefaultAsync(sc => sc.Id == id);
+            return await context.ScientificCommittee.Include(sc => sc.Subject).FirstOrDefaultAsync(sc => sc.Id == id);
         }
 
         public async Task<ScientificCommittee?> UpdateAsync(int id, ScientificCommittee scientificCommitteeModel)
         {
-            ScientificCommittee? existingScientificCommittee = await _context.ScientificCommittee.FindAsync(id);
+            ScientificCommittee? existingScientificCommittee = await context.ScientificCommittee.FindAsync(id);
 
             if (existingScientificCommittee == null)
                 return null;
 
-            Subject? newSubject = await _context.Subject.FindAsync(scientificCommitteeModel.SubjectId);
+            Subject? newSubject = await context.Subject.FindAsync(scientificCommitteeModel.SubjectId);
 
             existingScientificCommittee.Name = scientificCommitteeModel.Name;
             existingScientificCommittee.SubjectId = scientificCommitteeModel.SubjectId;
             existingScientificCommittee.Subject = newSubject!;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return existingScientificCommittee;
         }

@@ -12,7 +12,7 @@ namespace apis.Repositories
 {
     public class ArticleReviewRepository(ApplicationDbContext context) : IArticleReviewRepository
     {
-        public async Task<List<ArticleReviewDto>?> GetAllArticleReviewsAsync(ArticleReviewQueryObject query)
+        public async Task<List<ArticleReview>?> GetAllArticleReviewsAsync(ArticleReviewQueryObject query)
         {
             var articles = await context.Article
                 .Include(a => a.ArticleReview)
@@ -28,12 +28,12 @@ namespace apis.Repositories
 
             var articleReviews = articles
                 .SelectMany(article => article.ArticleReview)
-                .Select(review => new ArticleReviewDto
+                .Select(review => new ArticleReview
                     {
                         ArticleId = review.ArticleId,
-                        Article = review.Article.ToArticleDto(),
+                        Article = review.Article,
                         ScientificCommitteeId = review.ScientificCommitteeId,
-                        ScientificCommittee = review.ScientificCommittee.ToScientificCommitteeDto(),
+                        ScientificCommittee = review.ScientificCommittee,
                         Grade = review.Grade,
                         Review = review.Review,
                         ReviewDate = review.ReviewDate
@@ -47,7 +47,7 @@ namespace apis.Repositories
 
         }
 
-        public async Task<List<ArticleReviewDto>?> GetArticleReviewsByIdAsync(int articleId)
+        public async Task<List<ArticleReview>?> GetArticleReviewsByIdAsync(int articleId)
         {
             var article = await context.Article
                 .Where(a => a.Id == articleId)
@@ -61,12 +61,12 @@ namespace apis.Repositories
                 return null;
 
             var articleReviews = article.ArticleReview
-                .Select(review => new ArticleReviewDto
+                .Select(review => new ArticleReview
                 {
                     ArticleId = article.Id,
-                    Article = article.ToArticleDto(),
+                    Article = article,
                     ScientificCommitteeId = review.ScientificCommitteeId,
-                    ScientificCommittee = review.ScientificCommittee.ToScientificCommitteeDto(),
+                    ScientificCommittee = review.ScientificCommittee,
                     Grade = review.Grade,
                     Review = review.Review,
                     ReviewDate = review.ReviewDate
@@ -75,6 +75,22 @@ namespace apis.Repositories
                 .ToList();
 
             return articleReviews;
+        }
+
+        public async Task<ArticleReview> CreateAsync(ArticleReview articleReviewModel)
+        {
+            var article = await context.Article.FindAsync(articleReviewModel.ArticleId);
+
+            var scientificCommittee = await context.ScientificCommittee.FindAsync(articleReviewModel.ScientificCommitteeId);
+
+            articleReviewModel.Article = article!;
+
+            articleReviewModel.ScientificCommittee = scientificCommittee!;
+
+            await context.ArticleReview.AddAsync(articleReviewModel);
+            await context.SaveChangesAsync();
+
+            return articleReviewModel;
         }
     }
 }
