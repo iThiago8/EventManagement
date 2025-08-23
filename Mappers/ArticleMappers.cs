@@ -14,7 +14,7 @@ namespace apis.Mappers
                 Abstract = articleModel.Abstract,
                 PublicationDate = articleModel.PublicationDate,
                 SubjectId = articleModel.SubjectId,
-                Subject = articleModel.Subject
+                Subject = articleModel.Subject.ToSubjectDto()
             };
         }
 
@@ -51,7 +51,7 @@ namespace apis.Mappers
                 Abstract = articleDto.Abstract,
                 PublicationDate = articleDto.PublicationDate,
                 SubjectId = articleDto.SubjectId,
-                Subject = articleDto.Subject
+                Subject = articleDto.Subject.ToSubjectFromDto()
             };
         }
     }

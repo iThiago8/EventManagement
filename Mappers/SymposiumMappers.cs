@@ -15,7 +15,7 @@ namespace apis.Mappers
                 StartDate = symposiumModel.StartDate,
                 EndDate = symposiumModel.EndDate,
                 LocationAddressId = symposiumModel.LocationAddressId,
-                LocationAddress = symposiumModel.LocationAddress
+                LocationAddress = symposiumModel.LocationAddress.ToAddressDto()
             };
         }
 

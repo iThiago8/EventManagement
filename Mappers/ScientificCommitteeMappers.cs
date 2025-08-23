@@ -11,7 +11,7 @@ namespace apis.Mappers
             {
                 Id = scientificCommitteeModel.Id,
                 Name = scientificCommitteeModel.Name,
-                Subject = scientificCommitteeModel.Subject,
+                Subject = scientificCommitteeModel.Subject.ToSubjectDto(),
                 SubjectId = scientificCommitteeModel.SubjectId
             };
         }

@@ -14,6 +14,15 @@ namespace apis.Mappers
             };
         }
 
+        public static Subject ToSubjectFromDto(this SubjectDto subjectDto)
+        {
+            return new Subject
+            {
+                Id = subjectDto.Id,
+                Name = subjectDto.Name
+            };
+        }
+
         public static Subject ToSubjectFromCreateDto(this CreateSubjectRequestDto subjectDto)
         {
             return new Subject

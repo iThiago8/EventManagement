@@ -1,4 +1,6 @@
-﻿namespace apis.Dtos.Workshop
+﻿using apis.Dtos.Subject;
+
+namespace apis.Dtos.Workshop
 {
     public class WorkshopDto
     {
@@ -6,6 +8,6 @@
         public string Name { get; set; } = string.Empty;
         public int Hours { get; set; }
         public int SubjectId { get; set; }
-        public Models.Subject Subject { get; set; } = new();
+        public SubjectDto Subject { get; set; } = new();
     }
 }

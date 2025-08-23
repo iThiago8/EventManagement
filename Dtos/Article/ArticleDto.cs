@@ -1,4 +1,4 @@
-﻿using apis.Models;
+﻿using apis.Dtos.Subject;
 
 namespace apis.Dtos.Article
 {
@@ -9,6 +9,6 @@ namespace apis.Dtos.Article
         public DateTime PublicationDate { get; set; }
         public string Abstract { get; set; } = string.Empty;
         public int SubjectId { get; set; }
-        public Models.Subject Subject { get; set; } = new();
+        public SubjectDto Subject { get; set; } = new();
     }
 }

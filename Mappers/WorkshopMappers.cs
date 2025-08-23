@@ -13,7 +13,7 @@ namespace apis.Mappers
                 Hours = workshopModel.Hours,
                 Name = workshopModel.Name,
                 SubjectId = workshopModel.SubjectId,
-                Subject = workshopModel.Subject
+                Subject = workshopModel.Subject.ToSubjectDto()
             };
         }
 

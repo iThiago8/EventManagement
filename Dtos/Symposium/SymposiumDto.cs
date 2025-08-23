@@ -1,4 +1,6 @@
-﻿namespace apis.Dtos.Symposium
+﻿using apis.Dtos.Address;
+
+namespace apis.Dtos.Symposium
 {
     public class SymposiumDto
     {
@@ -7,7 +9,7 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int LocationAddressId { get; set; }
-        public Models.Address LocationAddress { get; set; } = new();
+        public AddressDto LocationAddress { get; set; } = new();
         public string? Description { get; set; }
     }
 }
