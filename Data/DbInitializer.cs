@@ -7,7 +7,7 @@ namespace apis.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureDeleted(); //Usado somente quando quero resetar o banco de dados
+            //context.Database.EnsureDeleted(); //Usado somente quando quero resetar o banco de dados
 
             context.Database.Migrate();
 

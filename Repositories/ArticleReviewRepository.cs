@@ -95,7 +95,15 @@ namespace apis.Repositories
 
         public async Task<ArticleReview?> UpdateAsync(int articleId, int scientificCommitteeId, ArticleReview articleReviewModel)
         {
-            var articleReview = await context.ArticleReview.FirstOrDefaultAsync(ar => ar.ArticleId == articleId && ar.ScientificCommitteeId == scientificCommitteeId);
+            var articleReview = await context.ArticleReview
+                .Include(ar => ar.Article)
+                .ThenInclude(a => a.Subject)
+                .Include(ar => ar.ScientificCommittee)
+                .ThenInclude(sc => sc.Subject)
+                .FirstOrDefaultAsync(
+                    ar => ar.ArticleId == articleId 
+                    && ar.ScientificCommitteeId == scientificCommitteeId
+                );
 
             if (articleReview == null)
                 return null;
