@@ -1,5 +1,6 @@
 ﻿using apis.Data;
 using apis.Dtos.ArticleReview;
+using apis.Exceptions;
 using apis.Helpers.QueryObjects;
 using apis.Interfaces;
 using apis.Mappers;
@@ -77,8 +78,16 @@ namespace apis.Repositories
             return articleReviews;
         }
 
-        public async Task<ArticleReview> CreateAsync(ArticleReview articleReviewModel)
+        public async Task<ArticleReview?> CreateAsync(ArticleReview articleReviewModel)
         {
+            var articleReviewExists = await ArticleReviewExists(articleReviewModel.ArticleId, articleReviewModel.ScientificCommitteeId);
+
+            if (articleReviewExists)
+            {
+                throw new DuplicateRecordException("This combination of article and scientific committee already exists.");
+            }
+
+
             var article = await context.Article.FindAsync(articleReviewModel.ArticleId);
 
             var scientificCommittee = await context.ScientificCommittee.FindAsync(articleReviewModel.ScientificCommitteeId);
@@ -100,8 +109,8 @@ namespace apis.Repositories
                 .ThenInclude(a => a.Subject)
                 .Include(ar => ar.ScientificCommittee)
                 .ThenInclude(sc => sc.Subject)
-                .FirstOrDefaultAsync(
-                    ar => ar.ArticleId == articleId 
+                .FirstOrDefaultAsync(ar => 
+                    ar.ArticleId == articleId 
                     && ar.ScientificCommitteeId == scientificCommitteeId
                 );
 
@@ -128,6 +137,17 @@ namespace apis.Repositories
             await context.SaveChangesAsync();
 
             return articleReview;
+        }
+
+        public async Task<bool> ArticleReviewExists(int articleId, int scientificCommitteeId)
+        {
+            var existingArticleReview = await context.ArticleReview
+                .AnyAsync(ar => 
+                    ar.ArticleId == articleId
+                    && ar.ScientificCommitteeId == scientificCommitteeId
+                );
+
+            return existingArticleReview;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using apis.Dtos.ArticleReview;
+using apis.Exceptions;
 using apis.Helpers.QueryObjects;
 using apis.Interfaces;
 using apis.Mappers;
@@ -51,10 +52,19 @@ namespace apis.Controllers
 
             var articleReviewModel = articleReviewDto.ToArticleReviewFromCreateDto();
 
-            await articleReviewRepo.CreateAsync(articleReviewModel);
+            try
+            {
+            var articleReview = await articleReviewRepo.CreateAsync(articleReviewModel);
 
-            // TODO: mudar isso para CreatedAtAction
-            return Ok("Objeto criado");
+                // TODO: mudar isso para CreatedAtAction
+                return Ok("Objeto criado");
+            }
+            catch (DuplicateRecordException ex)
+            {
+                return Conflict(ex.Message);
+            }
+
+
         }
 
         [HttpPut("{articleId}/reviews/{scientificCommitteeId}")]
