@@ -6,7 +6,6 @@ namespace apis.Mappers
 {
     public static class ArticleReviewMappers
     {
-
         public static ArticleReviewDto ToArticleReviewDto(this ArticleReview articleReviewModel)
         {
             return new ArticleReviewDto
@@ -38,8 +37,6 @@ namespace apis.Mappers
         {
             return new ArticleReview
             {
-                ArticleId = articleReviewDto.ArticleId,
-                ScientificCommitteeId = articleReviewDto.ScientificCommitteeId,
                 Grade = articleReviewDto.Grade,
                 Review = articleReviewDto.Review,
                 ReviewDate = articleReviewDto.ReviewDate

@@ -2,6 +2,7 @@
 using apis.Helpers.QueryObjects;
 using apis.Interfaces;
 using apis.Mappers;
+using apis.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +55,45 @@ namespace apis.Controllers
 
             // TODO: mudar isso para CreatedAtAction
             return Ok("Objeto criado");
+        }
+
+        [HttpPut("{articleId}/reviews/{scientificCommitteeId}")]
+        [Authorize]
+        public async Task<IActionResult> Update([FromRoute] int articleId, int scientificCommitteeId, [FromBody] UpdateArticleReviewRequestDto articleReviewDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!await articleRepo.ArticleExists(articleId))
+                return BadRequest("Article does not exist.");
+
+            if (!await scientificCommitteeRepo.ScientificCommitteeExists(scientificCommitteeId))
+                return BadRequest("Scientific committee does not exist");
+
+            var articleReview = await articleReviewRepo.UpdateAsync(articleId, scientificCommitteeId, articleReviewDto.ToArticleReviewFromUpdateDto());
+
+            if (articleReview == null)
+                return NotFound();
+            else
+                return Ok(articleReview.ToArticleReviewDto());
+        }
+
+        [HttpDelete("{articleId}/reviews/{scientificCommitteeId}")]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromRoute] int articleId, int scientificCommitteeId)
+        {
+            if (!await articleRepo.ArticleExists(articleId))
+                return BadRequest("Article does not exist.");
+
+            if (!await scientificCommitteeRepo.ScientificCommitteeExists(scientificCommitteeId))
+                return BadRequest("Scientific committee does not exist");
+
+            var articleReview = await articleReviewRepo.DeleteAsync(articleId, scientificCommitteeId);
+
+            if (articleReview == null)
+                return NotFound();
+            else
+                return NoContent();
         }
     }
 }

@@ -5,12 +5,6 @@ namespace apis.Dtos.ArticleReview
     public class UpdateArticleReviewRequestDto
     {
         [Required]
-        public int ArticleId { get; set; }
-
-        [Required]
-        public int ScientificCommitteeId { get; set; }
-
-        [Required]
         public float Grade { get; set; }
 
         [Required]

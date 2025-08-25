@@ -92,5 +92,34 @@ namespace apis.Repositories
 
             return articleReviewModel;
         }
+
+        public async Task<ArticleReview?> UpdateAsync(int articleId, int scientificCommitteeId, ArticleReview articleReviewModel)
+        {
+            var articleReview = await context.ArticleReview.FirstOrDefaultAsync(ar => ar.ArticleId == articleId && ar.ScientificCommitteeId == scientificCommitteeId);
+
+            if (articleReview == null)
+                return null;
+
+            articleReview.Grade = articleReviewModel.Grade;
+            articleReview.Review = articleReviewModel.Review;
+            articleReview.ReviewDate = articleReviewModel.ReviewDate;
+
+            await context.SaveChangesAsync();
+            
+            return articleReview;
+        }
+
+        public async Task<ArticleReview?> DeleteAsync(int articleId, int scientificCommitteeId)
+        {
+            var articleReview = await context.ArticleReview.FirstOrDefaultAsync(ar => ar.ArticleId == articleId && ar.ScientificCommitteeId == scientificCommitteeId);
+
+            if (articleReview == null)
+                return null;
+
+            context.ArticleReview.Remove(articleReview);
+            await context.SaveChangesAsync();
+
+            return articleReview;
+        }
     }
 }
