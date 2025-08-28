@@ -15,7 +15,7 @@ namespace apis.Controllers
     {
         [HttpGet("article/reviews")]
         [Authorize]
-        public async Task<IActionResult> GetArticleReviews([FromQuery] ArticleReviewQueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] ArticleReviewQueryObject query)
         {
             var articlesReviews = await articleReviewRepo.GetAllArticleReviewsAsync(query);
 
@@ -27,7 +27,7 @@ namespace apis.Controllers
 
         [HttpGet("{articleId}/reviews")]
         [Authorize]
-        public async Task<IActionResult> GetArticleReviewsById([FromRoute] int articleId)
+        public async Task<IActionResult> GetById([FromRoute] int articleId)
         {
             var articleReviews = await articleReviewRepo.GetArticleReviewsByIdAsync(articleId);
 
@@ -35,6 +35,18 @@ namespace apis.Controllers
                 return NotFound();
 
             return Ok(articleReviews.Select(ar => ar.ToArticleReviewDto()));
+        }
+
+        [HttpGet("{articleId}/reviews/{reviewId}")]
+        [Authorize]
+        public async Task<IActionResult> GetArticleReviewByCompositeId([FromRoute] int articleId, int reviewId)
+        {
+            var articleReview = await articleReviewRepo.GetArticleReviewByCompositeId(articleId, reviewId);
+
+            if (articleReview == null)
+                return NotFound();
+            else
+                return Ok(articleReview.ToArticleReviewDto());
         }
 
         [HttpPost]
@@ -54,17 +66,14 @@ namespace apis.Controllers
 
             try
             {
-            var articleReview = await articleReviewRepo.CreateAsync(articleReviewModel);
+                var articleReview = await articleReviewRepo.CreateAsync(articleReviewModel);
 
-                // TODO: mudar isso para CreatedAtAction
-                return Ok("Objeto criado");
+                return CreatedAtAction(nameof(GetArticleReviewByCompositeId), new { articleId = articleReview.ArticleId, scientificCommitteeId = articleReview.ScientificCommitteeId }, articleReview.ToArticleReviewDto() );
             }
             catch (DuplicateRecordException ex)
             {
                 return Conflict(ex.Message);
             }
-
-
         }
 
         [HttpPut("{articleId}/reviews/{scientificCommitteeId}")]

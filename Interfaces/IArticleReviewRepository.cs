@@ -8,7 +8,8 @@ namespace apis.Interfaces
     {
         Task<List<ArticleReview>?> GetAllArticleReviewsAsync(ArticleReviewQueryObject query);
         Task<List<ArticleReview>?> GetArticleReviewsByIdAsync(int articleId);
-        Task<ArticleReview?> CreateAsync(ArticleReview articleReviewModel);
+        Task<ArticleReview?> GetArticleReviewByCompositeId(int articleId, int scientificCommitteeId);
+        Task<ArticleReview> CreateAsync(ArticleReview articleReviewModel);
         Task<ArticleReview?> UpdateAsync(int articleId, int scientificCommitteeId, ArticleReview articleReviewModel);
         Task<ArticleReview?> DeleteAsync(int articleId, int scientificCommitteeId);
         Task<bool> ArticleReviewExists(int articleId, int scientificCommitteeId);

@@ -16,10 +16,11 @@ namespace apis.Repositories
         public async Task<List<ArticleReview>?> GetAllArticleReviewsAsync(ArticleReviewQueryObject query)
         {
             var articles = await context.Article
+                .Include(a => a.Subject)
                 .Include(a => a.ArticleReview)
                 .ThenInclude(sc => sc.ScientificCommittee)
                 .ThenInclude(sc => sc.Subject)
-                .Include(s => s.Subject)
+                .Include(a => a.Subject)
                 .ToListAsync();
 
             if (articles == null)
@@ -55,7 +56,7 @@ namespace apis.Repositories
                 .Include(a => a.ArticleReview)
                 .ThenInclude(sc => sc.ScientificCommittee)
                 .ThenInclude(sc => sc.Subject)
-                .Include(s => s.Subject)
+                .Include(a => a.Subject)
                 .FirstOrDefaultAsync();
 
             if (article == null)
@@ -78,7 +79,25 @@ namespace apis.Repositories
             return articleReviews;
         }
 
-        public async Task<ArticleReview?> CreateAsync(ArticleReview articleReviewModel)
+        public async Task<ArticleReview?> GetArticleReviewByCompositeId(int articleId, int scientificCommitteeId)
+        {
+            var articleReviewExists = await ArticleReviewExists(articleId, scientificCommitteeId);
+
+            if (!articleReviewExists)
+                return null;
+            else
+                return await context.ArticleReview
+                    .Include(ar => ar.Article)
+                    .ThenInclude(a => a.Subject)
+                    .Include(ar => ar.ScientificCommittee)
+                    .ThenInclude(sc => sc.Subject)
+                    .FirstOrDefaultAsync(ar =>
+                        ar.ArticleId == articleId
+                        && ar.ScientificCommitteeId == scientificCommitteeId
+                    );
+        }
+
+        public async Task<ArticleReview> CreateAsync(ArticleReview articleReviewModel)
         {
             var articleReviewExists = await ArticleReviewExists(articleReviewModel.ArticleId, articleReviewModel.ScientificCommitteeId);
 
@@ -87,19 +106,12 @@ namespace apis.Repositories
                 throw new DuplicateRecordException("This combination of article and scientific committee already exists.");
             }
 
-
-            var article = await context.Article.FindAsync(articleReviewModel.ArticleId);
-
-            var scientificCommittee = await context.ScientificCommittee.FindAsync(articleReviewModel.ScientificCommitteeId);
-
-            articleReviewModel.Article = article!;
-
-            articleReviewModel.ScientificCommittee = scientificCommittee!;
-
             await context.ArticleReview.AddAsync(articleReviewModel);
             await context.SaveChangesAsync();
 
-            return articleReviewModel;
+            var createdArticleReview = await GetArticleReviewByCompositeId(articleReviewModel.ArticleId, articleReviewModel.ScientificCommitteeId);
+
+            return createdArticleReview!;
         }
 
         public async Task<ArticleReview?> UpdateAsync(int articleId, int scientificCommitteeId, ArticleReview articleReviewModel)
