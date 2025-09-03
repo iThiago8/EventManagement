@@ -68,7 +68,7 @@ namespace apis.Controllers
             {
                 var articleReview = await articleReviewRepo.CreateAsync(articleReviewModel);
 
-                return CreatedAtAction(nameof(GetArticleReviewByCompositeId), new { articleId = articleReview.ArticleId, scientificCommitteeId = articleReview.ScientificCommitteeId }, articleReview.ToArticleReviewDto() );
+                return CreatedAtAction(nameof(GetArticleReviewByCompositeId), new { articleId = articleReview.ArticleId, reviewId = articleReview.ScientificCommitteeId }, articleReview.ToArticleReviewDto());
             }
             catch (DuplicateRecordException ex)
             {
