@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "EventManagement.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "EventManagement.Frontend\Frontend.csproj", "{EA2A1E11-E1E8-4546-8D0C-C449FC45AD60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManagement.Shared", "EventManagement.Shared\EventManagement.Shared.csproj", "{813ACFF6-2BA8-4156-9029-3C2787FEBFB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "EventManagement.Shared\Core.csproj", "{813ACFF6-2BA8-4156-9029-3C2787FEBFB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

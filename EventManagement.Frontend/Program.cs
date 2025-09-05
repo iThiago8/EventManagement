@@ -1,4 +1,4 @@
-using EventManagement.Frontend;
+using Core.Frontend;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
