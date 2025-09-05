@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManagement.Backend", "EventManagement.Backend\EventManagement.Backend.csproj", "{21655906-5742-B366-5098-F2DC314159CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "EventManagement.Backend\Backend.csproj", "{21655906-5742-B366-5098-F2DC314159CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManagement.Frontend", "EventManagement.Frontend\EventManagement.Frontend.csproj", "{EA2A1E11-E1E8-4546-8D0C-C449FC45AD60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "EventManagement.Frontend\Frontend.csproj", "{EA2A1E11-E1E8-4546-8D0C-C449FC45AD60}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManagement.Shared", "EventManagement.Shared\EventManagement.Shared.csproj", "{813ACFF6-2BA8-4156-9029-3C2787FEBFB9}"
 EndProject
