@@ -1,7 +1,7 @@
-﻿using apis.Dtos.Symposium;
-using apis.Models;
+﻿using Backend.Dtos.Symposium;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface ISymposiumRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace apis.Dtos.Address
+﻿namespace Backend.Dtos.Address
 {
     public class AddressDto
     {

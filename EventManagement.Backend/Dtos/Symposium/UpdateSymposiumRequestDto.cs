@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.Symposium
+namespace Backend.Dtos.Symposium
 {
     public class UpdateSymposiumRequestDto
     {

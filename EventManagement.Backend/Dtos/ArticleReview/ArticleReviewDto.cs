@@ -1,6 +1,6 @@
-﻿using apis.Dtos;
+﻿using Backend.Dtos;
 
-namespace apis.Dtos.ArticleReview
+namespace Backend.Dtos.ArticleReview
 {
     public class ArticleReviewDto
     {

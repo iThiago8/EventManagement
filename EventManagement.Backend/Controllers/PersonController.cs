@@ -1,12 +1,12 @@
-﻿using apis.Dtos.Person;
-using apis.Helpers.QueryObjects;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Dtos.Person;
+using Backend.Helpers.QueryObjects;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/person")]
     [ApiController]

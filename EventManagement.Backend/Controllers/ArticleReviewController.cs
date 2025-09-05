@@ -1,13 +1,13 @@
-﻿using apis.Dtos.ArticleReview;
-using apis.Exceptions;
-using apis.Helpers.QueryObjects;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Dtos.ArticleReview;
+using Backend.Exceptions;
+using Backend.Helpers.QueryObjects;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/articlereview")]
     [ApiController]

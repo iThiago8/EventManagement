@@ -1,6 +1,6 @@
-﻿using apis.Dtos.Subject;
+﻿using Backend.Dtos.Subject;
 
-namespace apis.Dtos.Article
+namespace Backend.Dtos.Article
 {
     public class ArticleDto
     {

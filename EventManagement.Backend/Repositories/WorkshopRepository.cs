@@ -1,10 +1,10 @@
-﻿using apis.Data;
-using apis.Dtos.Workshop;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.Workshop;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class WorkshopRepository(ApplicationDbContext context) : IWorkshopRepository
     {

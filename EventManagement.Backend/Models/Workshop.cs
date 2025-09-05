@@ -1,4 +1,4 @@
-﻿namespace apis.Models
+﻿namespace Backend.Models
 {
     public class Workshop
     {

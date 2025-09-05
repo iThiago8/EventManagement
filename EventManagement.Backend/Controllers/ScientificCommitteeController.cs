@@ -1,11 +1,11 @@
-﻿using apis.Dtos.ScientificCommittee;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Dtos.ScientificCommittee;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/scientific-committee")]
     [ApiController]

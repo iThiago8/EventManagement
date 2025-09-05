@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace apis.Migrations
+namespace Backend.Migrations
 {
     /// <inheritdoc />
     public partial class SeedRole : Migration

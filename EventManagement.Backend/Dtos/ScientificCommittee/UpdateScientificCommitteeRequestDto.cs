@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.ScientificCommittee
+namespace Backend.Dtos.ScientificCommittee
 {
     public class UpdateScientificCommitteeRequestDto
     {

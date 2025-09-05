@@ -1,6 +1,6 @@
-﻿using apis.Interfaces;
+﻿using Backend.Interfaces;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class WorkshopSymposiumRepository : IWorkshopSymposiumRepository
     {

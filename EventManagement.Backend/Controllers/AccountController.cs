@@ -1,11 +1,11 @@
-﻿using apis.Dtos.Account;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Dtos.Account;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/account")]
     [ApiController]

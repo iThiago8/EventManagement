@@ -1,4 +1,4 @@
-﻿namespace apis.Interfaces
+﻿namespace Backend.Interfaces
 {
     public interface IWorkshopSymposiumRepository
     {

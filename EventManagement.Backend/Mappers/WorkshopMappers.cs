@@ -1,7 +1,7 @@
-﻿using apis.Dtos.Workshop;
-using apis.Models;
+﻿using Backend.Dtos.Workshop;
+using Backend.Models;
 
-namespace apis.Mappers
+namespace Backend.Mappers
 {
     public static class WorkshopMappers
     {

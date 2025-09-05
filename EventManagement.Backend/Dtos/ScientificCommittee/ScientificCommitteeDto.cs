@@ -1,6 +1,6 @@
-﻿using apis.Dtos.Subject;
+﻿using Backend.Dtos.Subject;
 
-namespace apis.Dtos.ScientificCommittee
+namespace Backend.Dtos.ScientificCommittee
 {
     public class ScientificCommitteeDto
     {

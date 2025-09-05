@@ -1,7 +1,7 @@
-﻿using apis.Dtos.Workshop;
-using apis.Models;
+﻿using Backend.Dtos.Workshop;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface IWorkshopRepository
     {

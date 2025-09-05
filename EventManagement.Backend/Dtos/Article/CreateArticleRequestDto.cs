@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.Article
+namespace Backend.Dtos.Article
 {
     public class CreateArticleRequestDto
     {

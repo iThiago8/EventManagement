@@ -1,11 +1,11 @@
-﻿using apis.Data;
-using apis.Dtos.Person;
-using apis.Helpers.QueryObjects;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.Person;
+using Backend.Helpers.QueryObjects;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class PersonRepository(ApplicationDbContext context) : IPersonRepository
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.ArticleReview
+namespace Backend.Dtos.ArticleReview
 {
     public class CreateArticleReviewRequestDto
     {

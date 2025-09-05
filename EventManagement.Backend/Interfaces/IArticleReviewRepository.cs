@@ -1,8 +1,8 @@
-﻿using apis.Dtos.ArticleReview;
-using apis.Helpers.QueryObjects;
-using apis.Models;
+﻿using Backend.Dtos.ArticleReview;
+using Backend.Helpers.QueryObjects;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface IArticleReviewRepository
     {

@@ -1,6 +1,6 @@
-﻿using apis.Models;
+﻿using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface ITokenService
     {

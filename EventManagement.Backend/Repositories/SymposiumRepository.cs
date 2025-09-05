@@ -1,10 +1,10 @@
-﻿using apis.Data;
-using apis.Dtos.Symposium;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.Symposium;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class SymposiumRepository(ApplicationDbContext context) : ISymposiumRepository
     {

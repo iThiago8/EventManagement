@@ -1,7 +1,7 @@
-﻿using apis.Models;
+﻿using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Data
+namespace Backend.Data
 {
     public class DbInitializer
     {

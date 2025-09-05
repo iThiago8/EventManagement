@@ -1,11 +1,11 @@
-﻿using apis.Dtos.Subject;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Dtos.Subject;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/subject")]
     [ApiController]

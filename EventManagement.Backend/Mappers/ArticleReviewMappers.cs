@@ -1,8 +1,8 @@
-﻿using apis.Dtos.Article;
-using apis.Dtos.ArticleReview;
-using apis.Models;
+﻿using Backend.Dtos.Article;
+using Backend.Dtos.ArticleReview;
+using Backend.Models;
 
-namespace apis.Mappers
+namespace Backend.Mappers
 {
     public static class ArticleReviewMappers
     {

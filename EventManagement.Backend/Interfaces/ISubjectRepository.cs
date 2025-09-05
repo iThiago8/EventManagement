@@ -1,7 +1,7 @@
-﻿using apis.Dtos.Subject;
-using apis.Models;
+﻿using Backend.Dtos.Subject;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface ISubjectRepository
     {

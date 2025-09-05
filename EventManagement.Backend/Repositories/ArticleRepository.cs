@@ -1,12 +1,12 @@
-﻿using apis.Data;
-using apis.Dtos.Article;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.Article;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class ArticleRepository(ApplicationDbContext context) : IArticleRepository
     {

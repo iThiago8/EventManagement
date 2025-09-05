@@ -1,7 +1,7 @@
-﻿using apis.Dtos.ScientificCommittee;
-using apis.Models;
+﻿using Backend.Dtos.ScientificCommittee;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface IScientificCommitteeRepository
     {

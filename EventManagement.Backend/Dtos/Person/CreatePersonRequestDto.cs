@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using apis.Models; // Assuming 'apis.Models' might contain related entities or definitions
+using Backend.Models; // Assuming 'apis.Models' might contain related entities or definitions
 
-namespace apis.Dtos.Person
+namespace Backend.Dtos.Person
 {
     public class CreatePersonRequestDto
     {

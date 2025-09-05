@@ -1,9 +1,9 @@
-﻿using apis.Models;
+﻿using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Data
+namespace Backend.Data
 {
     public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
     {

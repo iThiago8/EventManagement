@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using apis.Data;
+using Backend.Data;
 
 #nullable disable
 
-namespace apis.Migrations
+namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250806000514_SeedRole")]

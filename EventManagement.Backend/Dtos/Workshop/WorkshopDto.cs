@@ -1,6 +1,6 @@
-﻿using apis.Dtos.Subject;
+﻿using Backend.Dtos.Subject;
 
-namespace apis.Dtos.Workshop
+namespace Backend.Dtos.Workshop
 {
     public class WorkshopDto
     {

@@ -1,4 +1,4 @@
-﻿namespace apis.Dtos.Subject
+﻿namespace Backend.Dtos.Subject
 {
     public class SubjectDto
     {

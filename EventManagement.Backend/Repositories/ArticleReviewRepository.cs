@@ -1,15 +1,15 @@
-﻿using apis.Data;
-using apis.Dtos.ArticleReview;
-using apis.Exceptions;
-using apis.Helpers.QueryObjects;
-using apis.Interfaces;
-using apis.Mappers;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.ArticleReview;
+using Backend.Exceptions;
+using Backend.Helpers.QueryObjects;
+using Backend.Interfaces;
+using Backend.Mappers;
+using Backend.Models;
 using Google.Protobuf.Collections;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class ArticleReviewRepository(ApplicationDbContext context) : IArticleReviewRepository
     {

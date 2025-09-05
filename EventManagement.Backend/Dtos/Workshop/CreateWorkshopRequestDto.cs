@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.Workshop
+namespace Backend.Dtos.Workshop
 {
     public class CreateWorkshopRequestDto
     {

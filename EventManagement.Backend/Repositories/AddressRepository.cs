@@ -1,10 +1,10 @@
-﻿using apis.Data;
-using apis.Dtos.Address;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.Address;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class AddressRepository(ApplicationDbContext context) : IAddressRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace apis.Helpers.QueryObjects
+﻿namespace Backend.Helpers.QueryObjects
 {
     public class PersonQueryObject
     {

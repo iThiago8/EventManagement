@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.Subject
+namespace Backend.Dtos.Subject
 {
     public class CreateSubjectRequestDto
     {

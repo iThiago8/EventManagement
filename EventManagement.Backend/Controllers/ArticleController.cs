@@ -1,10 +1,10 @@
-﻿using apis.Dtos.Article;
-using apis.Interfaces;
-using apis.Mappers;
+﻿using Backend.Dtos.Article;
+using Backend.Interfaces;
+using Backend.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apis.Controllers
+namespace Backend.Controllers
 {
     [Route("api/article")]
     [ApiController]    

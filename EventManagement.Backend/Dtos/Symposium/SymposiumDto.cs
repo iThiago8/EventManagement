@@ -1,6 +1,6 @@
-﻿using apis.Dtos.Address;
+﻿using Backend.Dtos.Address;
 
-namespace apis.Dtos.Symposium
+namespace Backend.Dtos.Symposium
 {
     public class SymposiumDto
     {

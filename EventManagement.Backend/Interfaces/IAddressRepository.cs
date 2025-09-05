@@ -1,7 +1,7 @@
-﻿using apis.Dtos.Address;
-using apis.Models;
+﻿using Backend.Dtos.Address;
+using Backend.Models;
 
-namespace apis.Interfaces
+namespace Backend.Interfaces
 {
     public interface IAddressRepository
     {

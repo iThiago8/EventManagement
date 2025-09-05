@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace apis.Dtos.Person
+namespace Backend.Dtos.Person
 {
     public class UpdatePersonRequestDto
     {

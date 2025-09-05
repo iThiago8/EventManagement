@@ -1,11 +1,11 @@
-﻿using apis.Data;
-using apis.Dtos.ScientificCommittee;
-using apis.Interfaces;
-using apis.Models;
+﻿using Backend.Data;
+using Backend.Dtos.ScientificCommittee;
+using Backend.Interfaces;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-namespace apis.Repositories
+namespace Backend.Repositories
 {
     public class ScientificCommitteeRepository(ApplicationDbContext context) : IScientificCommitteeRepository
     {

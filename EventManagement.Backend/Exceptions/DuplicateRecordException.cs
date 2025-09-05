@@ -1,4 +1,4 @@
-﻿namespace apis.Exceptions
+﻿namespace Backend.Exceptions
 {
     public class DuplicateRecordException : Exception
     {
