@@ -11,7 +11,7 @@ namespace Backend.Controllers
     public class ArticleController(IArticleRepository articleRepo, ISubjectRepository subjectRepo) : ControllerBase
     {
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetAll()
         {
             var articles = await articleRepo.GetAllAsync();
