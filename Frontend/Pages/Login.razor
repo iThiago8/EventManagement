@@ -1,0 +1,34 @@
+﻿@page "/login"
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<div class="d-flex justify-center align-center" style="height: 80vh;">
+    <MudPaper Class="pa-8" Elevation="3" Style="width: 400px">
+        <h3 class="mb-4">Login</h3>
+        <EditForm Model="@_loginRequest"
+    </MudPaper>
+</div>
+
+@code {
+    private readonly LoginRequest _loginRequest = neRequestw();
+    private string _errorMessage = string.Empty;
+    private bool _isProcessing = false;
+
+    private async Task HandleLogin()
+    {
+        _isProcessing = true;
+
+        var result = await AuthService.LoginAsync(_loginRequest);
+
+        if (result.IsAuthSuccessful)
+        {
+            NavigationManager.NavigateTo("/articles");
+        }
+        else
+        {
+            _errorMessage = result.ErrorMessage ?? "An unknown error ocurred."; 
+        }
+
+        _isProcessing = false;
+    }
+}
