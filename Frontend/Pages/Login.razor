@@ -1,16 +1,50 @@
 ﻿@page "/login"
+@using Core.Dtos.Account
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 
 <div class="d-flex justify-center align-center" style="height: 80vh;">
     <MudPaper Class="pa-8" Elevation="3" Style="width: 400px">
         <h3 class="mb-4">Login</h3>
-        <EditForm Model="@_loginRequest"
+        <EditForm Model="@_loginRequest" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <MudTextField @bind-Value="_loginRequest.UserName"
+                          For="@(() => _loginRequest.UserName)"
+                          Label="Usuário"
+                          Variant="Variant.Outlined"
+                          Class="mb-4" />
+
+            <MudTextField @bind-Value="_loginRequest.Password"
+                          For="@(() => _loginRequest.Password)"
+                          Label="Senha"
+                          InputType="InputType.Password"
+                          Variant="Variant.Outlined"
+                          Class="mb-4" />
+
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <MudAlert Severity="Severity.Error" Class="md-4">@_errorMessage</MudAlert>
+            }
+
+            <div class="d-flex justify-end">
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Disabled="_isProcessing">
+                    @if (_isProcessing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                        <span class="ms-2">Processing...</span>
+                    }
+                    else
+                    {
+                        <span>Login</span>
+                    }
+                </MudButton>
+            </div>
+        </EditForm>
     </MudPaper>
 </div>
 
 @code {
-    private readonly LoginRequest _loginRequest = neRequestw();
+    private readonly LoginRequestDto _loginRequest = new();
     private string _errorMessage = string.Empty;
     private bool _isProcessing = false;
 
@@ -20,7 +54,7 @@
 
         var result = await AuthService.LoginAsync(_loginRequest);
 
-        if (result.IsAuthSuccessful)
+        if (!result.IsAuthSuccessful)
         {
             NavigationManager.NavigateTo("/articles");
         }

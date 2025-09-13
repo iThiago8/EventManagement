@@ -1,4 +1,6 @@
 ﻿@page "/articles"
+@attribute [Authorize]
+
 @using Core.Dtos.Article
 @using System.Net.Http.Json
 @inject HttpClient Http
