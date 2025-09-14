@@ -2,7 +2,7 @@
 
 namespace Core.Dtos.Account
 {
-    public class LoginDto
+    public class LoginRequestDto
     {
         [Required]
         public string UserName { get; set; } = string.Empty;

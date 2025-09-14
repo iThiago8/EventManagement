@@ -1,5 +1,49 @@
 ﻿@page "/workshops"
+@attribute [Authorize]
+
+@using Core.Dtos.Workshop
+@using System.Net.Http.Json
+
+@inject HttpClient Http
+
+
+@if (_loading)
+{
+	<p><em>Carregando...</em></p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+	<MudAlert Severity="Severity.Error">@_errorMessage</MudAlert>
+}
+else
+{
+	<MudDataGrid Items="@_workshops.Take(10)">
+		<Columns>
+			<PropertyColumn Property="x => x.Name" Title="Nome" />
+			<PropertyColumn Property="x => x.Hours" Title="Carga horária" />
+			<PropertyColumn Property="x => x.Subject.Name" Title="Tema" />
+		</Columns>
+	</MudDataGrid>
+}
 
 @code {
+	private ICollection<WorkshopDto>? _workshops;
+	private bool _loading = true;
+	private string _errorMessage = string.Empty;
 
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			_workshops = await Http.GetFromJsonAsync<ICollection<WorkshopDto>>("api/workshop");
+		}
+		catch (HttpRequestException ex)
+		{
+			_errorMessage = $"Erro ao buscar os artigos: {ex.Message}";
+		}
+		finally
+		{
+			_loading = false;
+		}
+	}
 }

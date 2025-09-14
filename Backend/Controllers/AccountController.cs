@@ -12,7 +12,7 @@ namespace Backend.Controllers
     public class AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signManager) : ControllerBase
     {
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

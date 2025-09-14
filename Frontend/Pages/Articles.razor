@@ -1,8 +1,51 @@
 ﻿@page "/articles"
-@inject HttpClient Http
+@attribute [Authorize]
 
+@using Core.Dtos.Article
+@using System.Net.Http.Json
+@inject HttpClient Http
 
 <h3>Articles</h3>
 
+
+@if (_loading)
+{
+    <p><em>Carregando...</em></p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <MudAlert Severity="Severity.Error">@_errorMessage</MudAlert> 
+}
+else
+{
+    <MudDataGrid Items="@_articles.Take(10)">
+        <Columns>
+            <PropertyColumn Property="x => x.Name" Title="Nome" />
+            <PropertyColumn Property="x => x.PublicationDate" Title="Data de publicação" />
+            <PropertyColumn Property="x => x.Abstract" Title="Resumo" />
+            <PropertyColumn Property="x => x.Subject.Name" Title="Tema" />
+        </Columns>
+    </MudDataGrid>    
+}
+
 @code {
+    private ICollection<ArticleDto>? _articles;
+    private bool _loading = true;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try 
+        {
+            _articles = await Http.GetFromJsonAsync<ICollection<ArticleDto>>("api/article");
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"Erro ao buscar os artigos: {ex.Message}";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
 }

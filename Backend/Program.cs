@@ -42,6 +42,16 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorApp",
+        builder => builder
+            .WithOrigins("https://localhost:7015", "http://localhost:5072")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!);
@@ -101,6 +111,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("AllowBlazorApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
