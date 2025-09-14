@@ -1,7 +1,53 @@
 ﻿@page "/addresses"
+@inject HttpClient Http
+
+@using Core.Dtos.Address
+@using System.Net.Http.Json
 
 <h3>Addresses</h3>
 
-@code {
+@if (_loading)
+{
+	<p><em>Carregando...</em></p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+	<MudAlert Severity="Severity.Error">@_errorMessage</MudAlert>
+}
+else
+{
+	<MudDataGrid Items="@_addresses.Take(10)">
+		<Columns>
+			<PropertyColumn Property="x => x.Street" Title="Logradouro" />
+			<PropertyColumn Property="x => x.Number" Title="Número" />
+			<PropertyColumn Property="x => x.Complement" Title="Complemento" />
+			<PropertyColumn Property="x => x.Neighborhood" Title="Bairro" />
+			<PropertyColumn Property="x => x.City" Title="Cidade" />
+			<PropertyColumn Property="x => x.State" Title="Estado" />
+			<PropertyColumn Property="x => x.Country" Title="Country" />
+			<PropertyColumn Property="x => x.PostalCode" Title="CEP" />
+		</Columns>
+	</MudDataGrid>
+}
 
+@code {
+	private ICollection<AddressDto>? _addresses;
+	private string _errorMessage = string.Empty;
+	private bool _loading = true;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			_addresses = await Http.GetFromJsonAsync<ICollection<AddressDto>>("api/address");
+		}
+		catch (HttpRequestException ex)
+		{
+			_errorMessage = $"Erro ao buscar os endereços: {ex.Message}";
+		}
+		finally
+		{
+			_loading = false;
+		}
+	}
 }
