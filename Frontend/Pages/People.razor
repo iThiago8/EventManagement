@@ -1,7 +1,39 @@
 ﻿@page "/people"
+@attribute [Authorize]
+
+@using Core.Dtos.Person
+@inject HttpClient Http
 
 <h3>People</h3>
 
-@code {
+<MudDataGrid Items="@_people.Take(10)">
+    <Columns>
+        <PropertyColumn Property="x => x.Cpf" Title="CPF" />
+        <PropertyColumn Property="x => x.Name" Title="Nome" />
+        <PropertyColumn Property="x => x.Email" Title="E-mail" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="Telefone" />
+        <PropertyColumn Property="x => x.BirthDate" Title="Data de nascimento" />
+    </Columns>
+</MudDataGrid>
 
+@code {
+    private ICollection<PersonDto>? _people;
+    private bool _loading = true;
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _people = await Http.GetFromJsonAsync<ICollection<PersonDto>>("api/person");
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"Erro ao buscar as pessoas: {ex.Message}";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
 }

@@ -54,9 +54,9 @@
 
         var result = await AuthService.LoginAsync(_loginRequest);
 
-        if (!result.IsAuthSuccessful)
+        if (result.IsAuthSuccessful)
         {
-            NavigationManager.NavigateTo("/articles");
+            NavigationManager.NavigateTo("/");
         }
         else
         {
