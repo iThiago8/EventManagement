@@ -1,10 +1,15 @@
 ﻿@page "/addresses"
+@attribute [Authorize]
+
 @inject HttpClient Http
+@inject IDialogService DialogService
 
 @using Core.Dtos.Address
 @using System.Net.Http.Json
 
-<h3>Addresses</h3>
+<PageTitle>Endereços</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Endereços</MudText>
 
 @if (_loading)
 {
@@ -26,6 +31,16 @@ else
 			<PropertyColumn Property="x => x.State" Title="Estado" />
 			<PropertyColumn Property="x => x.Country" Title="Country" />
 			<PropertyColumn Property="x => x.PostalCode" Title="CEP" />
+
+				<TemplateColumn Title="Ações">
+					<CellTemplate>
+						<MudIconButton	Icon ="@Icons.Material.Filled.Edit"
+										Variant="Variant.Filled"
+										Color="Color.Primary"
+										Size="Size.Small"
+										OnClick="@(() => OpenEditDialog(context.Item))" />
+					</CellTemplate>
+				</TemplateColumn>
 		</Columns>
 	</MudDataGrid>
 }
@@ -49,5 +64,12 @@ else
 		{
 			_loading = false;
 		}
+	}
+
+	private async Task OpenEditDialog(AddressDto addressDto)
+	{
+		var addressCopy = addressDto;
+
+		//var parameters = new DialogParameters<AddressEditDialog>
 	}
 }
