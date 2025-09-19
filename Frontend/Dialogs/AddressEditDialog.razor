@@ -1,0 +1,42 @@
+﻿@inject HttpClient Http
+@using Core.Dtos.Address
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="AddressToEdit.Street" Label="Logradouro" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.Number" Label="Número" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.Complement" Label="Complemento" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.Neighborhood" Label="Bairro" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.City" Label="Cidade" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.State" Label="Estado" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.Country" Label="País" Margin="Margin.Dense" />
+        <MudTextField @bind-Value="AddressToEdit.PostalCode" Label="CEP" Margin="Margin.Dense" />
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter]
+    public AddressDto AddressToEdit { get; set; } = new();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task Save()
+    {
+        var response = await Http.PutAsJsonAsync($"api/address/{AddressToEdit.Id}", AddressToEdit);
+
+        if (response.IsSuccessStatusCode)
+        {
+            MudDialog.Close(DialogResult.Ok(AddressToEdit));
+        }
+        else
+        {
+            
+        }
+    }
+}

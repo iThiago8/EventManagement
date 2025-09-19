@@ -70,6 +70,23 @@ else
 	{
 		var addressCopy = addressDto;
 
-		//var parameters = new DialogParameters<AddressEditDialog>
+		var parameters = new DialogParameters<AddressEditDialog>
+		{
+			{ x => x.AddressToEdit, addressCopy}
+		};
+
+		var dialog = await DialogService.ShowAsync<AddressEditDialog>("Editar endereço", parameters);
+
+		var result = await dialog.Result;
+
+		if (!result.Canceled && result.Data is AddressDto updatedAddress)
+		{
+			var originalAddress = _addresses?.FirstOrDefault(a => a.Id == updatedAddress.Id);
+
+			if (originalAddress != null)
+			{
+				StateHasChanged();
+			}
+		}
 	}
 }
